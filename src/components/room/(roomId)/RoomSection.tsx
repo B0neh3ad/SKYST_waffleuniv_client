@@ -36,12 +36,15 @@ export default function RoomSection({ roomId }: { roomId: string }) {
   } | null>(null);
 
   const { sendSongRequest, sendReaction } = useStompClient({
-    url: "https://d2xeo8dtqopj84.cloudfront.net/ws", // SockJS endpoint
+    url: "https://d2xeo8dtqopj84.cloudfront.net/ws",
     token,
     roomId,
+    onConnect: () => {
+      console.log("STOMP 연결 성공");
+      setIsStompReady(true);
+    },
     onMessage: (msg) => {
       console.log("📥 Incoming:", msg);
-      // play, update handler.
 
       if (msg.action == "PLAY") {
         setCurrentSong(msg.content);
@@ -57,8 +60,10 @@ export default function RoomSection({ roomId }: { roomId: string }) {
     },
   });
 
+  const [isStompReady, setIsStompReady] = useState(false);
+
   useEffect(() => {
-    // 1. 새로운 방에 대한 정보 가져오기 (usercount, songcount, songvideo ID->youtube url, startedAt-음악언제 플레이)
+    // 1. 새로운 방에 대한 정보 가져오기
     const fetchRoomInfo = async () => {
       const roomInfo = await HomeAPI.getRoomInfo(token ?? "");
       const res_data = roomInfo.data as any;
@@ -70,17 +75,27 @@ export default function RoomSection({ roomId }: { roomId: string }) {
       }
     };
     fetchRoomInfo();
-    // 2. 방에 들어오면 요청 보내기 song Request
-    // userContextProvider에 저장해둔걸 토대로 신청하
-    setTimeout(() => {
+
+    // STOMP 연결이 준비되면 노래 요청 보내기
+    if (isStompReady && submittedSong.title) {
       sendSongRequest({
-        title: submittedSong.title ?? "",
-        artist: submittedSong.artist ?? "",
-        sourceUrl: submittedSong.sourceUrl ?? "",
-        comment: submittedSong.comment ?? "",
+        title: submittedSong.title,
+        artist: submittedSong.artist,
+        sourceUrl: submittedSong.sourceUrl,
+        comment: submittedSong.comment,
       });
-    }, 1000);
-  }, [roomId]);
+    }
+  }, [roomId, isStompReady]);
+
+  // STOMP 연결 상태 모니터링
+  useEffect(() => {
+    const checkStompConnection = () => {
+      if (token && roomId) {
+        setIsStompReady(true);
+      }
+    };
+    checkStompConnection();
+  }, [token, roomId]);
 
   const { userColor } = useUserColor();
   const playerRef = useRef<PlayerType | null>(null);

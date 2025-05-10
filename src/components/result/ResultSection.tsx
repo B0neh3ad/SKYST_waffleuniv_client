@@ -22,7 +22,7 @@ export default function ResultSection() {
     console.log("submitted");
     setStep("confirm");
     // global context roomId 설정.
-    const roomId = "1234567890";
+    const roomId = "1";
     setRoomId(roomId);
     setTimeout(() => router.push("/room/entrance"), 2000);
   };

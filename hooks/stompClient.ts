@@ -4,10 +4,11 @@ import SockJS from "sockjs-client";
 import { useEffect, useRef } from "react";
 
 interface UseStompProps {
-  url: string; // ex) http://your-server/ws
+  url: string;
   token: string;
   roomId: string;
   onMessage: (data: any) => void;
+  onConnect: () => void;
 }
 
 export const useStompClient = ({
@@ -15,6 +16,7 @@ export const useStompClient = ({
   token,
   roomId,
   onMessage,
+  onConnect,
 }: UseStompProps) => {
   const clientRef = useRef<Client | null>(null);
 
@@ -29,11 +31,11 @@ export const useStompClient = ({
       reconnectDelay: 5000,
       onConnect: () => {
         console.log("✅ STOMP connected");
-
         client.subscribe(`/topic/room/${roomId}`, (message: IMessage) => {
           const payload = JSON.parse(message.body);
           onMessage(payload);
         });
+        onConnect();
       },
       onStompError: (frame) => {
         console.error("STOMP error:", frame.headers["message"]);
@@ -48,29 +50,41 @@ export const useStompClient = ({
     };
   }, [url, token, roomId, onMessage]);
 
+  const isConnected = () => {
+    return clientRef.current && clientRef.current.connected;
+  };
+
   const sendSongRequest = (data: {
     title: string;
     artist: string;
     sourceUrl: string;
     comment: string;
   }) => {
-    clientRef.current?.publish({
-      destination: `/app/room/${roomId}/songrequest`,
-      body: JSON.stringify(data),
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    if (isConnected()) {
+      clientRef.current!.publish({
+        destination: `/app/room/${roomId}/songrequest`,
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      console.warn("🛑 STOMP client not connected yet. Song request not sent.");
+    }
   };
 
   const sendReaction = (name: string) => {
-    clientRef.current?.publish({
-      destination: `/app/room/${roomId}/reaction`,
-      body: JSON.stringify({ name }),
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    if (isConnected()) {
+      clientRef.current!.publish({
+        destination: `/app/room/${roomId}/reaction`,
+        body: JSON.stringify({ name }),
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } else {
+      console.warn("🛑 STOMP client not connected yet. Reaction not sent.");
+    }
   };
 
   return { sendSongRequest, sendReaction };
