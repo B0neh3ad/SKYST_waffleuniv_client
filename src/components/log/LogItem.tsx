@@ -1,5 +1,6 @@
 import { MAX_DIARY_LENGTH } from "@/constants/constants";
 import Link from "next/link";
+import DiaryHeader from "./DiaryHeader";
 
 interface LogItemProps {
   userColor: string;
@@ -18,56 +19,57 @@ export default function LogItem({
 }: LogItemProps) {
   // Input step
   return (
-    <div className="p-6 max-w-xl mx-auto">
+    <div className="p-6 mx-[156px] mt-[110.4px] bg-darak-bg">
       {/* User info and prompt */}
-      <div className="flex items-center mb-2">
-        <div
-          className="w-8 h-8 rounded-full mr-2 border-2 border-gray-500 flex items-center justify-center"
-          style={{ backgroundColor: userColor }}
-        />
-        <span className="text-gray-700">
-          <span className="font-semibold mr-1">{userColor}</span>
-          님, 오늘의 감정이 드러나도록 일기를 작성해주세요.
-        </span>
-      </div>
-      {/* Diary card */}
-      <div className="bg-white rounded-xl shadow p-6 mb-4">
-        <div className="flex items-center mb-4">
-          <span className="text-lg mr-2">오늘의 감정 일기</span>
-          <div
-            className="w-8 h-8 rounded-full mr-2 border-2 border-gray-500 flex items-center justify-center"
-            style={{ backgroundColor: userColor }}
-          />
-          <span className="font-semibold mr-1">{userColor}</span>
-          <button
-            onClick={handleClear}
-            className="ml-auto text-sm text-gray-500 border border-gray-300 rounded px-2 py-1 hover:bg-gray-100"
-          >
-            clear
-          </button>
+        <div className="flex flex-col items-center justify-center self-stretch gap-[10px] mb-[70.56px]">
+          <span className="flex text-[#3B3029] items-center text-center text-[28px] font-bold">
+            <div className="flex w-[214px] h-[60px] px-[30px] py-[12px] items-center gap-[10px] bg-[#FFFFFF99] rounded-[10px] mr-[22px]">
+              <div
+                className="w-[33px] h-[33px] rounded-full drop-shadow-[2px_2px_5px_rgba(0,0,0,0.10)]"
+                style={{ backgroundColor: userColor }}
+              />
+              <span className="text-[#3B3029] text-center text-[25px] font-bold leading-[16px]">{userColor}</span>
+            </div>
+            님, 오늘의 감정이 드러나도록 일기를 작성해주세요.
+          </span>
+          <span className="text-[#6B4F3B] text-center text-[18px] font-bold leading-[25px]">
+            작성해 주신 일기 내용은 AI 다락이가 읽고, 기분을 분석해드려요!
+          </span>
         </div>
+
+      {/* Diary card */}
+      <div
+        className="flex h-[550px] px-[100px] py-[42px] flex-col items-center gap-10px self-stretch rounded-[15px] bg-[#FAF5F1]"
+        style={{boxShadow: '5px 5px 10px 0px rgba(0, 0, 0, 0.10)'}}
+      >
+        <DiaryHeader userColor={userColor} />
         <textarea
-          className="w-full h-32 border border-gray-200 rounded p-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 mb-2"
+          className="w-full h-full bg-[#FAF5F1] text-[#6B4F3B] resize-none leading-[53px] text-[20px] text-[#6B4F3B] mt-[57px]"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(to bottom, transparent, transparent 52px, #B7A89A 52px, #B7A89A 53px)",
+            backgroundSize: "100% 53px"
+          }}
           placeholder="오늘의 감정을 자유롭게 적어보세요..."
           value={diary}
           onChange={handleDiaryChange}
           maxLength={MAX_DIARY_LENGTH}
         />
-        <div className="flex justify-between items-center text-sm text-gray-400">
-          <span></span>
-          <span>{diary.length}/{MAX_DIARY_LENGTH}</span>
+        <div className="mb-[50px] flex self-end justify-end items-center text-sm text-gray-400">
+          <span className="text-[#6B4F3B] text-center text-[20px] font-bold">{diary.length}</span>
+          <span className="text-[#00000080] text-center text-[20px] font-bold">/{MAX_DIARY_LENGTH}</span>
         </div>
       </div>
       {/* Navigation buttons */}
-      <div className="flex justify-between mt-2">
-        <Link href="/home">
-          <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">이전</button>
-        </Link>
+      <div className="flex justify-center mt-[50px]">
         <button
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="w-[179px] h-[60px] text-black text-center text-[20px] font-bold leading-[16px] rounded-[10px] bg-[#B46A5599]"
           onClick={handleNext}
+          style={{
+            cursor: 'pointer',
+          }}
         >
-          다음
+          작성 완료하기
         </button>
       </div>
     </div>

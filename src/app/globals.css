@@ -1,18 +1,35 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #faf5f1;
   --foreground: #171717;
-  --darak-bg: #faf5f1;
+  --darak-bg: #f3eee2;
+  --darak-bg-dark: #979797;
+  --text-dark: #373737;
   --darak-point1: #b46a55;
   --darak-point2: #6b4f3b;
   --darak-point3: #eac04d;
+}
+
+@keyframes lp-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-lp-spin {
+  animation: lp-spin 5s linear infinite;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-darak-bg: var(--darak-bg);
+  --color-darak-bg-dark: var(--darak-bg-dark);
+  --color-text-dark: var(--text-dark);
   --color-darak-point1: var(--darak-point1);
   --color-darak-point2: var(--darak-point2);
   --color-darak-point3: var(--darak-point3);
@@ -28,7 +45,7 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--darak-bg);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
