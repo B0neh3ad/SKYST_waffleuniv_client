@@ -22,7 +22,7 @@ export default function ResultItem({
           src="/img/darak.svg"
           className="w-[86px] h-[57px] relative top-[15px] -left-[110px]"
         ></img>
-        <div className="flex flex-col items-left justify-left max-w-4xl mx-auto rounded-xl rounded-tl-none shadow bg-[#F2D6C2] w-[736px] h-[228px] px-[40px] py-[20px]">
+        <div className="flex flex-col items-left justify-left max-w-4xl mx-auto rounded-xl rounded-tl-none shadow bg-[#F2D6C2] w-[736px] px-[40px] py-[20px]">
           <img
             src="/img/bubbletip.svg"
             className="relative -top-[20px] -left-[49px] z-10 w-[15px] h-[12px]"
