@@ -59,9 +59,18 @@ export default function LogSection() {
     console.log("토큰", token);
     try {
       const res = await HomeAPI.record(diary, token);
-      setComment(res.data.comment);
-      setLabelId(res.data.labelId);
-      setLabelName(res.data.labelName);
+      const comment = (res.data as any).comment;
+      if (comment){
+        setComment(comment);
+      }
+      const labelId = (res.data as any).labelId;
+      if (labelId) {
+        setLabelId(labelId);
+      }
+      const labelName = (res.data as any).labelName;
+      if (labelName) {
+        setLabelName(labelName);
+      }
       setSubmitted(true);
     } catch (e) {
       console.error("일기 전송 실패", e);

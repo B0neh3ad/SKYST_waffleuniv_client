@@ -21,13 +21,12 @@ export default function ProfileConfirmDialog({
     const colorHex = userColor.replace("#", "");
     try {
       const res = await HomeAPI.register(colorHex);
-      // 예시: res.data.data.token 또는 res.data.token 등 실제 응답 구조에 맞게
-      console.log("결과", res.data.token);
-      if (res.data.token) {
-        setToken(res.data.token);
+      const token = (res.data as any).token;
+      if (token) {
+        setToken(token);
         // local storage에 토큰 저장
-        localStorage.setItem("token", res.data.token);
-        console.log("토큰", res.data.token);
+        localStorage.setItem("token", token);
+        console.log("토큰", token);
 
         router.push("/log");
       } else {

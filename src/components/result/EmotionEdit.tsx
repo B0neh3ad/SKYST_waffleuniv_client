@@ -20,8 +20,10 @@ export default function EmotionEdit({
   useEffect(() => {
     const fetchEmotionList = async () => {
       const res = await HomeAPI.getEmotionLabels(token);
-      console.log(res);
-      setEmotionList(res.data);
+      const data = (res.data as any).data;
+      if (data) {
+        setEmotionList(data);
+      }
     };
     fetchEmotionList();
 
@@ -66,7 +68,7 @@ export default function EmotionEdit({
                   : "bg-[#FFFFFF99] text-[25px]"
               }
             `}
-            onClick={() => onSelect(emotion)}
+            onClick={() => handleSelect(emotion)}
             style={{
               cursor: "pointer",
             }}

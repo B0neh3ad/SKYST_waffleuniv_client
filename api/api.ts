@@ -9,11 +9,12 @@ export interface RegisterResponse {
   userId: string;
 }
 export interface ApiResponse<T> {
+  config: Object;
   data: T;
+  headers: Object;
+  request: Object;
   status: number;
-  message: string;
-  resultCode: string;
-  [key: string]: any;
+  statusText: string;
 }
 
 // record 응답 타입 정의
