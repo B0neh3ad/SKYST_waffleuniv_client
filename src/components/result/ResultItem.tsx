@@ -59,12 +59,18 @@ export default function ResultItem({
         <button
           className="rounded-xl bg-[#F2D6C2] w-[134px] h-[60px] font-bold text-lg"
           onClick={onReject}
+          style={{
+            cursor: "pointer",
+          }}
         >
           아니야
         </button>
         <button
           className="rounded-xl bg-[#B46A5599] w-[134px] h-[60px] font-bold text-lg"
           onClick={onConfirm}
+          style={{
+            cursor: "pointer",
+          }}
         >
           맞아
         </button>

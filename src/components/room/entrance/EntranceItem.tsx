@@ -7,36 +7,52 @@ interface EntranceItemProps {
 
 export default function EntranceItem({ handleNext }: EntranceItemProps) {
   return (
-    <div className="relative flex flex-col items-center justify-center h-screen w-full bg-gray-50 overflow-hidden">
-      {/* Decorative Arcs and Hand Icon */}
-      <div className="absolute top-16 flex flex-col items-center w-full z-10">
-        {/* Upper Arrow Icon (placeholder) */}
-        <div className="mb-2 text-4xl">⬆️⬆️</div>
-        {/* Arcs (draggable with Framer Motion) */}
-        <DraggableArcs handleNext={handleNext} />
+    <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden">
+      <div className="self-stretch text-center text-[28px] font-bold text-[#3B3029] mt-[97.4px] mb-[40px]">
+        다락이가 찾아낸 당신의 다락이에요!
       </div>
 
-      {/* Main Card */}
-      <div className="relative z-20 mt-44 bg-white rounded-3xl shadow-lg w-[420px] max-w-full p-6 flex flex-col items-center">
-        {/* Top Row: Buttons and LP Bar */}
-        <div className="flex items-center w-full mb-4">
-          <button className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg mr-2 font-semibold">Btn1</button>
-          <button className="px-4 py-2 bg-purple-100 text-purple-700 rounded-lg mr-4 font-semibold">Btn2</button>
-          <div className="flex-1 h-6 bg-gray-200 rounded-full flex items-center px-3">
-            <span className="text-gray-600 text-sm font-bold">LP Bar</span>
+      <div className="relative left-[-200px]">
+        <div className="flex shrink-0 flex-col w-[599px] h-[599px] bg-[#37678F] rounded-[20px] p-[50px] gap-[20px]">
+          <span className="flex items-center h-[60px] gap-[20px]">
+            <div className="h-[60px] flex items-center justify-center bg-[#FFFFFF99] rounded-[10px] px-[20px] gap-[10px]">
+              <img src="/img/sad.svg" alt="sad" />
+              <span className="text-center text-[25px] font-bold text-[#3B3029]">슬픔</span>
+            </div>
+            <span className="text-center text-[25px] font-bold text-white">다락</span>
+          </span>
+          <div className="flex flex-col gap-[10px]">
+            <span className="flex gap-[10px]">
+              <img src="/img/person.svg" alt="person" width={19} height={20}/>
+              <span className="text-[#FFFFFFCC] text-[18px]">18명이 이 다락에 함께하고 있어요.</span>
+            </span>
+            <span className="flex gap-[10px]">
+              <img src="/img/cd.svg" alt="cd" width={19} height={19}/>
+              <span className="text-[#FFFFFFCC] text-[18px]">지금 재생 중인 음악 - Falling</span>
+            </span>
           </div>
         </div>
-        {/* Info List */}
-        <ul className="w-full text-gray-700 text-base space-y-2">
-          <li className="flex items-center"><span className="mr-2">①</span>1명이 이 방에 함께하고 있습니다</li>
-          <li className="flex items-center"><span className="mr-2">②</span>지금 재생중인 음악 <span className="ml-1">🎵</span> <span className="ml-1 text-gray-400">song~</span></li>
-        </ul>
+        <img
+          className="animate-lp-spin"
+          src="/img/LP.svg"
+          width={596}
+          height={596}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "336px",
+          }}
+        />
       </div>
-
-      {/* Bottom Text */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 text-sm">
-        위로 <span className="font-semibold">스와이프해서 입장하기</span>
-      </div>
+      <button
+        className="w-[134px] h-[60px] rounded-[10px] bg-[#B46A5599] text-black text-[20px] font-bold text-center mt-[50px]"
+        onClick={handleNext}
+        style={{
+          cursor: "pointer",
+        }}
+      >
+        확인
+      </button>
     </div>
   );
 }

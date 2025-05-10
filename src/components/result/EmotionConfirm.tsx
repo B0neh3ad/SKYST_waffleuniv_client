@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useUserColor } from "../../../provider/UserContextProvider";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function EmotionConfirm({
   state,
@@ -15,46 +16,44 @@ export default function EmotionConfirm({
   // context가 제대로 반영되어있는지 확인 필요
   // context null 일때 안보이도록 해야함.
   const { userColor } = useUserColor();
-
-  const circles = Array.from({ length: 7 }).map((_, idx) => {
-    const size = Math.floor(Math.random() * 80) + 40; // 40~120px
-    const top = Math.floor(Math.random() * 60) + 10; // vh 기준
-    const left = Math.floor(Math.random() * 80) + 10; // vw 기준
-
-    return (
-      <motion.div
-        key={idx}
-        className="absolute rounded-full border-4 border-violet-400 opacity-40"
-        style={{
-          width: size,
-          height: size,
-          top: `${top}vh`,
-          left: `${left}vw`,
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.4, 0.6, 0.4],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-    );
-  });
+  
   return (
-    <div className="relative w-full h-screen bg-white flex flex-col items-center justify-center overflow-hidden">
+    <div className="relative w-full h-screen flex flex-col items-center overflow-hidden">
       {/* 메시지 */}
-      <div className="text-center z-10">
-        <div className="text-sm text-gray-400 mb-1">#{userColor}</div>
-        <div className="text-2xl font-semibold text-gray-800">
-          님과 비슷한 감정 그룹을 찾고 있어요...
+      <div className="flex items-center justify-center mt-[130px]">
+        <img
+          src="/img/darak.svg"
+          className="w-[86px] h-[57px] relative top-[-80px] left-[-10px]"
+        ></img>
+        <div className="flex flex-col items-left justify-center max-w-4xl mx-auto rounded-xl rounded-tl-none shadow bg-[#F2D6C2] w-[665.438px] h-[143px] px-[32px]">
+          <img
+            src="/img/bubbletip.svg"
+            className="relative top-[-35px] -left-[42px] z-10 w-[15px] h-[12px]"
+          ></img>
+          {/* 프로필 + 닉네임 */}
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-lg px-[30px] py-[12px] text-[25px] text-[#3B3029] bg-[#FFFFFF99] rounded flex items-center gap-2">
+              <div
+                className="w-[33px] h-[33px] rounded-full inline-block filter drop-shadow-[2px_2px_5px_rgba(0,0,0,0.1)]"
+                style={{ backgroundColor: userColor || "#FFE4E4" }}
+              ></div>
+              <span>#{(userColor || "").replace("#", "")}</span>
+            </span>
+            <span className="ml-2 text-base text-[22px] text-[#6B4F3B]">
+              님과 비슷한 감정의 다락을 찾고 있어요.
+            </span>
+          </div>
         </div>
       </div>
-
-      {/* 원 애니메이션들 */}
-      {circles}
+      <Image
+        src="/img/emotions.svg"
+        alt="emotions"
+        width={600}
+        height={100}
+        style={{
+          marginTop: "71px",
+        }}
+      />
     </div>
   );
 }
