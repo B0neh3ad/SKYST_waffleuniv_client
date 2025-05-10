@@ -12,7 +12,7 @@ export default function ResultItem({
   onReject: () => void;
   onConfirm: () => void;
 }) {
-  const { userColor } = useUserColor(); // context에서 가져옴.
+  const { userColor, comment } = useUserColor(); // context에서 가져옴.
   const color =
     userColor && userColor.length === 7 ? userColor : "#e5e7eb"; // hex 아니면 gray
   return (
@@ -29,7 +29,7 @@ export default function ResultItem({
           ></img>
           {/* 프로필 + 닉네임 */}
           <div className="text-xl mb-2 text-[22px] text-[#6B4F3B]">
-            힘든 일이 많으셨던 것 같아요.
+            {comment}
           </div>
           <div className="flex items-center gap-3 mb-4">
             <span className="font-mono text-lg px-[30px] py-[12px] text-[25px] text-[#3B3029] bg-[#FFFFFF99] rounded flex items-center gap-2">

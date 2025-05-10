@@ -9,11 +9,12 @@ export interface RegisterResponse {
   userId: string;
 }
 export interface ApiResponse<T> {
+  config: Object;
   data: T;
+  headers: Object;
+  request: Object;
   status: number;
-  message: string;
-  resultCode: string;
-  [key: string]: any;
+  statusText: string;
 }
 
 // record 응답 타입 정의
@@ -168,6 +169,13 @@ export class HomeAPI {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       }
     );
+  };
+
+  static getRoomInfo = (token?: string) => {
+    return axios.get<ApiResponse<JoinRoomResponse>>(this.pathname("room"), {
+      withCredentials: true,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
   };
   // 다른 API도 아래처럼 추가
   // static someOtherApi = (param: string) => {

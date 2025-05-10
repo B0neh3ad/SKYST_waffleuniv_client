@@ -1,24 +1,115 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PlaylistSection from "./PlaylistSection";
 import CurrentMusic from "./CurrentMusic";
 import { useUserColor } from "../../../../provider/UserContextProvider";
 import Image from "next/image";
+import type { YouTubePlayer as PlayerType } from "react-youtube";
+import YouTubePlayer from "./YoutubePlayer";
+import { HomeAPI } from "../../../../api/api";
+import { useAuth } from "../../../../provider/UserContextProvider";
+import { useStompClient } from "../../../../hooks/stompClient";
 
 export default function RoomSection({ roomId }: { roomId: string }) {
+  const {
+    token,
+    userCount,
+    setUserCount,
+    songCount,
+    setSongCount,
+    currentSongVideoId,
+    setCurrentSongVideoId,
+    currentSongStartedAt,
+    setCurrentSongStartedAt,
+    submittedSong,
+    setSubmittedSong,
+  } = useAuth();
+
+  // Add state for current song
+  const [currentSong, setCurrentSong] = useState<{
+    id: number;
+    title: string;
+    artist: string;
+    videoId: string;
+    comment: string;
+    fullStory: string;
+  } | null>(null);
+
+  const { sendSongRequest, sendReaction } = useStompClient({
+    url: "https://d2xeo8dtqopj84.cloudfront.net/ws",
+    token,
+    roomId,
+    onConnect: () => {
+      console.log("STOMP 연결 성공");
+      setIsStompReady(true);
+    },
+    onMessage: (msg) => {
+      console.log("📥 Incoming:", msg);
+
+      if (msg.action == "PLAY") {
+        setCurrentSong(msg.content);
+        setCurrentSongVideoId(msg.content.videoId);
+        setCurrentSongStartedAt(msg.content.startedAt);
+      } else if (msg.action == "UPD_SONG_COUNT") {
+        setSongCount(msg.content.songCount);
+      } else if (msg.action == "UPD_USER_COUNT") {
+        setUserCount(msg.content.userCount);
+      } else {
+        console.log("Unknown message:", msg);
+      }
+    },
+  });
+
+  const [isStompReady, setIsStompReady] = useState(false);
+
   useEffect(() => {
-    console.log(roomId);
-    // fetch('/api/room/${roomId}`) 로 데이터 페칭해오기.
-    // 로딩일때는 다른 ui 보여주도록 하면 됨.
-  }, [roomId]);
+    // 1. 새로운 방에 대한 정보 가져오기
+    const fetchRoomInfo = async () => {
+      const roomInfo = await HomeAPI.getRoomInfo(token ?? "");
+      const res_data = roomInfo.data as any;
+      if (res_data) {
+        setUserCount(res_data.userCount);
+        setSongCount(res_data.songCount);
+        setCurrentSongVideoId(res_data.currentSongVideoId);
+        setCurrentSongStartedAt(res_data.currentSongStartedAt);
+      }
+    };
+    fetchRoomInfo();
+
+    // STOMP 연결이 준비되면 노래 요청 보내기
+    if (isStompReady && submittedSong.title) {
+      sendSongRequest({
+        title: submittedSong.title,
+        artist: submittedSong.artist,
+        sourceUrl: submittedSong.sourceUrl,
+        comment: submittedSong.comment,
+      });
+    }
+  }, [roomId, isStompReady]);
+
+  // STOMP 연결 상태 모니터링
+  useEffect(() => {
+    const checkStompConnection = () => {
+      if (token && roomId) {
+        setIsStompReady(true);
+      }
+    };
+    checkStompConnection();
+  }, [token, roomId]);
 
   const { userColor } = useUserColor();
+  const playerRef = useRef<PlayerType | null>(null);
+  const [ready, setReady] = useState(false);
 
   // 바늘 각도 토글 state
   const [stickToggled, setStickToggled] = useState(false);
 
   // 각도 계산 (기본 18도, 토글 시 -72도)
   const stickAngle = stickToggled ? -72 : 6;
+
+  const handleStartClick = () => {
+    playerRef.current?.playVideo();
+  };
 
   return (
     <div className="relative w-full h-screen flex flex-col items-center bg-darak-bg">
@@ -63,7 +154,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
             filter: "drop-shadow(0px 10px 4px rgba(0,0,0,0.25))",
           }}
         >
-          <CurrentMusic userColor={userColor} />
+          <CurrentMusic userColor={userColor} currentSong={currentSong} />
         </div>
 
         {/* LP */}
@@ -76,7 +167,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
             alt="LP"
             width={599}
             height={599}
-            className="w-[599px] h-[599px] object-cover"
+            className="w-[599px] h-[599px] object-cover animate-lp-spin"
             style={{
               width: 599,
               height: 599,
@@ -97,6 +188,16 @@ export default function RoomSection({ roomId }: { roomId: string }) {
               transformOrigin: "20% 15%",
               pointerEvents: "none",
               transition: "transform 1.2s cubic-bezier(.4,2,.6,1)",
+              zIndex: 100,
+              cursor: "pointer",
+            }}
+            onClick={handleStartClick}
+          />
+          <YouTubePlayer
+            videoId={currentSongVideoId}
+            onPlayerReady={(player) => {
+              playerRef.current = player;
+              setReady(true);
             }}
           />
         </div>
