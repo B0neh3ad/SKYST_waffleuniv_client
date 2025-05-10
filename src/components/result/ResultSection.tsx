@@ -11,7 +11,7 @@ import { useAuth } from "../../../provider/UserContextProvider";
 export default function ResultSection() {
   const router = useRouter();
   const { setRoomId } = useUserColor();
-  const { labelId, labelName } = useAuth();
+  const { labelId, labelName, token } = useAuth();
   const [selectedState, setSelectedState] = useState<string>(labelName || "");
   const [step, setStep] = useState<"result" | "edit" | "confirm">("result");
   const [isCorrect, setIsCorrect] = useState(true);

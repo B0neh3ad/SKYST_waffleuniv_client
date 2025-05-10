@@ -4,14 +4,80 @@ import PlaylistSection from "./PlaylistSection";
 import CurrentMusic from "./CurrentMusic";
 import { useUserColor } from "../../../../provider/UserContextProvider";
 import Image from "next/image";
-import type { YouTubePlayer as PlayerType } from 'react-youtube';
+import type { YouTubePlayer as PlayerType } from "react-youtube";
 import YouTubePlayer from "./YoutubePlayer";
+import { HomeAPI } from "../../../../api/api";
+import { useAuth } from "../../../../provider/UserContextProvider";
+import { useStompClient } from "../../../../hooks/stompClient";
 
 export default function RoomSection({ roomId }: { roomId: string }) {
+  const {
+    token,
+    userCount,
+    setUserCount,
+    songCount,
+    setSongCount,
+    currentSongVideoId,
+    setCurrentSongVideoId,
+    currentSongStartedAt,
+    setCurrentSongStartedAt,
+    submittedSong,
+    setSubmittedSong,
+  } = useAuth();
+
+  // Add state for current song
+  const [currentSong, setCurrentSong] = useState<{
+    id: number;
+    title: string;
+    artist: string;
+    videoId: string;
+    comment: string;
+    fullStory: string;
+  } | null>(null);
+
+  const { sendSongRequest, sendReaction } = useStompClient({
+    url: "https://d2xeo8dtqopj84.cloudfront.net/ws", // SockJS endpoint
+    token,
+    roomId,
+    onMessage: (msg) => {
+      console.log("📥 Incoming:", msg);
+      // play, update handler.
+
+      if (msg.action == "PLAY") {
+        setCurrentSong(msg.content);
+        setCurrentSongVideoId(msg.content.videoId);
+        setCurrentSongStartedAt(msg.content.startedAt);
+      } else if (msg.action == "UPD_SONG_COUNT") {
+        setSongCount(msg.content.songCount);
+      } else if (msg.action == "UPD_USER_COUNT") {
+        setUserCount(msg.content.userCount);
+      } else {
+        console.log("Unknown message:", msg);
+      }
+    },
+  });
+
   useEffect(() => {
-    console.log(roomId);
-    // fetch('/api/room/${roomId}`) 로 데이터 페칭해오기.
-    // 로딩일때는 다른 ui 보여주도록 하면 됨.
+    // 1. 새로운 방에 대한 정보 가져오기 (usercount, songcount, songvideo ID->youtube url, startedAt-음악언제 플레이)
+    const fetchRoomInfo = async () => {
+      const roomInfo = await HomeAPI.getRoomInfo(token ?? "");
+      const res_data = roomInfo.data as any;
+      if (res_data) {
+        setUserCount(res_data.userCount);
+        setSongCount(res_data.songCount);
+        setCurrentSongVideoId(res_data.currentSongVideoId);
+        setCurrentSongStartedAt(res_data.currentSongStartedAt);
+      }
+    };
+    fetchRoomInfo();
+    // 2. 방에 들어오면 요청 보내기 song Request
+    // userContextProvider에 저장해둔걸 토대로 신청하
+    sendSongRequest({
+      title: submittedSong.title ?? "",
+      artist: submittedSong.artist ?? "",
+      sourceUrl: submittedSong.sourceUrl ?? "",
+      comment: submittedSong.comment ?? "",
+    });
   }, [roomId]);
 
   const { userColor } = useUserColor();
@@ -71,7 +137,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
             filter: "drop-shadow(0px 10px 4px rgba(0,0,0,0.25))",
           }}
         >
-          <CurrentMusic userColor={userColor} />
+          <CurrentMusic userColor={userColor} currentSong={currentSong} />
         </div>
 
         {/* LP */}
@@ -111,7 +177,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
             onClick={handleStartClick}
           />
           <YouTubePlayer
-            videoId="H58vbez_m4E"
+            videoId={currentSongVideoId}
             onPlayerReady={(player) => {
               playerRef.current = player;
               setReady(true);

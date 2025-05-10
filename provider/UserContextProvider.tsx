@@ -6,7 +6,7 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-
+import { JoinRoomResponse } from "../api/api";
 // 타입 정의
 interface UserColorContextType {
   userColor: string;
@@ -21,6 +21,26 @@ interface UserColorContextType {
   setComment: (comment: string) => void;
   setLabelId: (id: number) => void;
   setLabelName: (name: string) => void;
+  userCount: number;
+  setUserCount: (count: number) => void;
+  songCount: number;
+  setSongCount: (count: number) => void;
+  currentSongVideoId: string;
+  setCurrentSongVideoId: (id: string) => void;
+  currentSongStartedAt: string;
+  setCurrentSongStartedAt: (time: string) => void;
+  submittedSong: {
+    title: string;
+    artist: string;
+    sourceUrl: string;
+    comment: string;
+  };
+  setSubmittedSong: (song: {
+    title: string;
+    artist: string;
+    sourceUrl: string;
+    comment: string;
+  }) => void;
 }
 
 const UserColorContext = createContext<UserColorContextType | undefined>(
@@ -41,12 +61,24 @@ export function useAuth() {
   return {
     token: ctx.token,
     setToken: ctx.setToken,
+    roomId: ctx.roomId,
+    setRoomId: ctx.setRoomId,
     comment: ctx.comment,
     setComment: ctx.setComment,
     labelId: ctx.labelId,
     setLabelId: ctx.setLabelId,
     labelName: ctx.labelName,
     setLabelName: ctx.setLabelName,
+    userCount: ctx.userCount,
+    setUserCount: ctx.setUserCount,
+    songCount: ctx.songCount,
+    setSongCount: ctx.setSongCount,
+    currentSongVideoId: ctx.currentSongVideoId,
+    setCurrentSongVideoId: ctx.setCurrentSongVideoId,
+    currentSongStartedAt: ctx.currentSongStartedAt,
+    setCurrentSongStartedAt: ctx.setCurrentSongStartedAt,
+    submittedSong: ctx.submittedSong,
+    setSubmittedSong: ctx.setSubmittedSong,
   };
 }
 
@@ -61,6 +93,18 @@ export default function UserContextProvider({
   const [comment, setComment] = useState("");
   const [labelId, setLabelId] = useState(0);
   const [labelName, setLabelName] = useState("");
+  const [userCount, setUserCount] = useState(0);
+  const [songCount, setSongCount] = useState(0);
+  const [currentSongVideoId, setCurrentSongVideoId] = useState("");
+  const [currentSongStartedAt, setCurrentSongStartedAt] = useState("");
+
+  /*object : { title, artist, sourceUrl, comment } */
+  const [submittedSong, setSubmittedSong] = useState({
+    title: "",
+    artist: "",
+    sourceUrl: "",
+    comment: "",
+  });
 
   // 쿠키에서 token을 읽어와서 상태에 저장
   useEffect(() => {
@@ -99,6 +143,16 @@ export default function UserContextProvider({
         setLabelId,
         labelName,
         setLabelName,
+        userCount,
+        setUserCount,
+        songCount,
+        setSongCount,
+        currentSongVideoId,
+        setCurrentSongVideoId,
+        currentSongStartedAt,
+        setCurrentSongStartedAt,
+        submittedSong,
+        setSubmittedSong,
       }}
     >
       {children}

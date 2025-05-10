@@ -1,6 +1,21 @@
 import React from "react";
 
-export default function CurrentMusic({ userColor }: { userColor: string }) {
+interface CurrentSong {
+  id: number;
+  title: string;
+  artist: string;
+  videoId: string;
+  comment: string;
+  fullStory: string;
+}
+
+export default function CurrentMusic({
+  userColor,
+  currentSong,
+}: {
+  userColor: string;
+  currentSong: CurrentSong | null;
+}) {
   return (
     <div>
       <div className="flex flex-col justify-start items-start w-[247px] relative gap-5">
@@ -90,13 +105,13 @@ export default function CurrentMusic({ userColor }: { userColor: string }) {
           <div className="flex justify-start items-center gap-2.5">
             <p className="text-lg text-left text-[#373737]/30">곡명</p>
             <p className="w-[105px] text-lg text-left text-[#373737]/80">
-              그대에게
+              {currentSong?.title || "재생 중인 곡이 없습니다"}
             </p>
           </div>
           <div className="flex justify-start items-center gap-[13px]">
             <p className="text-lg text-left text-[#373737]/30">가수명</p>
             <p className="w-[105px] text-lg text-left text-[#373737]/80">
-              신해철
+              {currentSong?.artist || "-"}
             </p>
           </div>
           <div className="flex flex-col justify-start items-start self-stretch gap-2.5">
@@ -104,9 +119,7 @@ export default function CurrentMusic({ userColor }: { userColor: string }) {
               곡 한줄 소개
             </p>
             <p className="w-[191px] text-lg text-left text-[#373737]/80">
-              <span>슬플 때마다 이 노래를 </span>
-              <br />
-              <span>들으면서 힘을 얻습니다.</span>
+              {currentSong?.comment || "-"}
             </p>
           </div>
         </div>

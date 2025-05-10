@@ -170,6 +170,13 @@ export class HomeAPI {
       }
     );
   };
+
+  static getRoomInfo = (token?: string) => {
+    return axios.get<ApiResponse<JoinRoomResponse>>(this.pathname("room"), {
+      withCredentials: true,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+  };
   // 다른 API도 아래처럼 추가
   // static someOtherApi = (param: string) => {
   //   return axios.get<ApiResponse<SomeType>>(this.pathname(`/some-path`), { params: { param } });

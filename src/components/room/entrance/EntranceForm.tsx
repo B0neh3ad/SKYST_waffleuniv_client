@@ -12,6 +12,8 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
 
+  const { setSubmittedSong } = useUserColor();
+
   return (
     <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden">
       <div className="self-stretch text-center text-[28px] font-bold text-[#3B3029] mt-[97.4px] mb-[40px]">
@@ -22,9 +24,14 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
         <form
           id="entrance-form"
           className="flex shrink-0 flex-col w-[599px] h-[599px] bg-[#37678F] rounded-[20px] p-[50px] gap-[20px]"
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
-            if (name === "" || artist === "" || url === "" || description === "") {
+            if (
+              name === "" ||
+              artist === "" ||
+              url === "" ||
+              description === ""
+            ) {
               alert("모든 필드를 입력해 주세요.");
               return;
             }
@@ -33,10 +40,12 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
         >
           <div className="shrink-0 h-[60px] w-[214px] mb-[30px] flex items-center justify-center bg-[#FFFFFF99] rounded-[10px] px-[20px] gap-[10px]">
             <div
-                className="w-[33px] h-[33px] rounded-full drop-shadow-[2px_2px_5px_rgba(0,0,0,0.10)]"
-                style={{ backgroundColor: userColor }}
+              className="w-[33px] h-[33px] rounded-full drop-shadow-[2px_2px_5px_rgba(0,0,0,0.10)]"
+              style={{ backgroundColor: userColor }}
             />
-            <span className="text-center text-[25px] font-bold text-[#3B3029]">{ userColor }</span>
+            <span className="text-center text-[25px] font-bold text-[#3B3029]">
+              {userColor}
+            </span>
           </div>
           <div className="flex flex-col gap-[20px]">
             <span className="flex gap-[10px]">
@@ -46,7 +55,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
                 placeholder="입력해주세요"
                 className="text-white text-[18px] bg-transparent border-none outline-none"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 required
               />
             </span>
@@ -57,7 +66,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
                 placeholder="입력해주세요"
                 className="text-white text-[18px] bg-transparent border-none outline-none"
                 value={artist}
-                onChange={e => setArtist(e.target.value)}
+                onChange={(e) => setArtist(e.target.value)}
                 required
               />
             </span>
@@ -69,7 +78,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
                 className="text-white w-[214px] text-[18px] bg-transparent border-none outline-none"
                 required
                 value={url}
-                onChange={e => setUrl(e.target.value)}
+                onChange={(e) => setUrl(e.target.value)}
                 style={{
                   overflow: "hidden",
                   whiteSpace: "normal",
@@ -86,13 +95,22 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
                 className="text-white text-[18px] bg-transparent border-none outline-none"
                 required
                 value={description}
-                onChange={e => setDescription(e.target.value)}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </span>
           </div>
           <button
             className="w-[134px] h-[60px] shrink-0 rounded-[10px] bg-[#B46A5599] text-black text-[20px] font-bold text-center mt-[90px]"
-            onClick={handleSubmit}
+            onClick={() => {
+              setSubmittedSong({
+                title: name,
+                artist: artist,
+                sourceUrl: url,
+                comment: description,
+              });
+
+              handleSubmit();
+            }}
             style={{
               cursor: "pointer",
             }}
