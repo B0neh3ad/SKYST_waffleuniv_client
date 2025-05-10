@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import axios from "axios";
 
 // Update BASE_URL to use the Swagger API endpoint
-export const BASE_URL = "https://43.201.28.34:8080";
+export const BASE_URL = "https://d2xeo8dtqopj84.cloudfront.net";
 
 const api = axios.create({
   baseURL: BASE_URL,
