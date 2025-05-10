@@ -1,18 +1,30 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import { useUserColor } from "../../../../provider/UserContextProvider";
+import LP_Icon from "../../../../public/img/LP_Icon";
+import { emotionColorMapping, emotionMapping } from "@/constants/constants";
 
 interface EntranceFormProps {
   handleSubmit: () => void;
 }
 
 export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
-  const { userColor } = useUserColor();
+  const { userColor, labelName } = useUserColor();
   const [name, setName] = useState("");
   const [artist, setArtist] = useState("");
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
 
   const { setSubmittedSong } = useUserColor();
+
+  const [ emotionColor, setEmotionColor ] = useState<string>("#000000");
+  
+  useEffect(() => {
+    if (labelName in emotionColorMapping) {
+      setEmotionColor(emotionColorMapping[labelName as keyof typeof emotionColorMapping]);
+    }
+  }, [labelName]);
 
   return (
     <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden">
@@ -23,7 +35,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
       <div className="relative left-[-200px]">
         <form
           id="entrance-form"
-          className="flex shrink-0 flex-col w-[599px] h-[599px] bg-[#37678F] rounded-[20px] p-[50px] gap-[20px]"
+          className={`flex shrink-0 flex-col w-[599px] h-[599px] rounded-[20px] p-[50px] gap-[20px]`}
           onSubmit={(e) => {
             e.preventDefault();
             if (
@@ -36,6 +48,9 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
               return;
             }
             handleSubmit();
+          }}
+          style={{
+            backgroundColor: emotionColor,
           }}
         >
           <div className="shrink-0 h-[60px] w-[214px] mb-[30px] flex items-center justify-center bg-[#FFFFFF99] rounded-[10px] px-[20px] gap-[10px]">
@@ -118,16 +133,9 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
             신청하기
           </button>
         </form>
-        <img
-          className="animate-lp-spin"
-          src="/img/LP.svg"
-          width={596}
-          height={596}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "336px",
-          }}
+        <LP_Icon
+          centerColor={emotionColor}
+          className="absolute top-0 left-[336px] w-[596px] h-[596px] animate-lp-spin"
         />
       </div>
     </div>

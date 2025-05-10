@@ -1,11 +1,29 @@
-import { useRef } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import LP_Icon from "../../../../public/img/LP_Icon";
+import { useUserColor } from "../../../../provider/UserContextProvider";
+import { emotionColorMapping, emotionMapping } from "@/constants/constants";
 
 interface EntranceItemProps {
   handleNext: () => void;
 }
 
 export default function EntranceItem({ handleNext }: EntranceItemProps) {
+  const { userColor, labelName } = useUserColor();
+
+  const [ emotionName, setEmotionName ] = useState<string>("sad");
+  const [ emotionColor, setEmotionColor ] = useState<string>("#000000");
+  
+  useEffect(() => {
+    if (labelName in emotionMapping) {
+      setEmotionName(emotionMapping[labelName as keyof typeof emotionMapping]);
+    }
+    if (labelName in emotionColorMapping) {
+      setEmotionColor(emotionColorMapping[labelName as keyof typeof emotionColorMapping]);
+    }
+  }, [labelName]);
+  
   return (
     <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden">
       <div className="self-stretch text-center text-[28px] font-bold text-[#3B3029] mt-[97.4px] mb-[40px]">
@@ -13,11 +31,14 @@ export default function EntranceItem({ handleNext }: EntranceItemProps) {
       </div>
 
       <div className="relative left-[-200px]">
-        <div className="flex shrink-0 flex-col w-[599px] h-[599px] bg-[#37678F] rounded-[20px] p-[50px] gap-[20px]">
+        <div className={`flex shrink-0 flex-col w-[599px] h-[599px] rounded-[20px] p-[50px] gap-[20px]`}
+        style={{
+          backgroundColor: emotionColor,
+        }}>
           <span className="flex items-center h-[60px] gap-[20px]">
             <div className="h-[60px] flex items-center justify-center bg-[#FFFFFF99] rounded-[10px] px-[20px] gap-[10px]">
-              <img src="/img/sad.svg" alt="sad" />
-              <span className="text-center text-[25px] font-bold text-[#3B3029]">슬픔</span>
+              <img src={`/img/${emotionName}.svg`} alt="sad" />
+              <span className="text-center text-[25px] font-bold text-[#3B3029]">{labelName}</span>
             </div>
             <span className="text-center text-[25px] font-bold text-white">다락</span>
           </span>
@@ -32,16 +53,9 @@ export default function EntranceItem({ handleNext }: EntranceItemProps) {
             </span>
           </div>
         </div>
-        <img
-          className="animate-lp-spin"
-          src="/img/LP.svg"
-          width={596}
-          height={596}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: "336px",
-          }}
+        <LP_Icon
+          centerColor={emotionColor}
+          className="absolute top-0 left-[336px] w-[596px] h-[596px] animate-lp-spin"
         />
       </div>
       <button
@@ -53,19 +67,6 @@ export default function EntranceItem({ handleNext }: EntranceItemProps) {
       >
         확인
       </button>
-    </div>
-  );
-}
-
-function DraggableArcs({ handleNext }: { handleNext: () => void }) {
-  return (
-    <div
-      className="relative w-72 h-36 flex flex-col items-center transform rotate-180 cursor-pointer select-none"
-      onClick={handleNext}
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-36 border-4 border-white rounded-b-full"></div>
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-60 h-28 border-2 border-white rounded-b-full"></div>
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-20 border border-white rounded-b-full"></div>
     </div>
   );
 }

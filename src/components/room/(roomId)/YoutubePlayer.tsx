@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
 
 type YouTubePlayerProps = {
@@ -12,6 +12,12 @@ export default function YouTubePlayer({
   videoId,
   onPlayerReady,
 }: YouTubePlayerProps) {
+  const [origin, setOrigin] = useState("");
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
+  }, []);
+
   const onReady = (event: { target: YouTubePlayer }) => {
     onPlayerReady(event.target); // 부모 컴포넌트에서 제어할 수 있도록 player 전달
   };
@@ -22,7 +28,7 @@ export default function YouTubePlayer({
     playerVars: {
       autoplay: 1,
       mute: 0,
-      origin: window.location.origin, // 현재 origin 추가
+      origin: origin,
       enablejsapi: 1,
       playsinline: 1,
     },
