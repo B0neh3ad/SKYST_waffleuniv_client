@@ -15,7 +15,7 @@ export default function LogSubmitFallback() {
         </div>
       </div>
       <div
-        className="flex flex-col w-[550px] px-[76px] pt-[60px] items-center rounded-t-[15px] bg-[#FAF5F1] gap-[41px]"
+        className="flex flex-col w-[550px] h-full px-[76px] pt-[60px] items-center rounded-t-[15px] bg-[#FAF5F1] gap-[41px]"
         style={{
           boxShadow: '5px 5px 100px 0px rgba(0, 0, 0, 0.10)',
         }}
