@@ -1,0 +1,26 @@
+<svg
+  width="33"
+  height="34"
+  viewBox="0 0 33 34"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class="flex-grow-0 flex-shrink-0 w-[33px] h-[33px]"
+  preserveAspectRatio="none"
+>
+  <circle cx="16.5" cy="17" r="16.5" fill="#D32F2F"></circle>
+  <path
+    d="M4.06396 12.5218C4.95648 13.5259 5.86149 14.2639 7.04796 14.8571"
+    stroke="#3B3029"
+    stroke-linecap="round"
+  ></path>
+  <path
+    d="M13.7944 14.9868C15.2783 14.9868 17.4526 14.8063 18.2056 13.3002"
+    stroke="#3B3029"
+    stroke-linecap="round"
+  ></path>
+  <path
+    d="M6.78857 19.9169C8.03564 19.9169 9.10616 19.5297 10.2915 19.398C10.7065 19.3519 11.2329 18.9224 11.6538 19.016C12.276 19.1542 13.0327 19.9295 13.535 20.3062"
+    stroke="#3B3029"
+    stroke-linecap="round"
+  ></path>
+</svg>

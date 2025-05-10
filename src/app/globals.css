@@ -1,14 +1,27 @@
 @import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #faf5f1;
   --foreground: #171717;
-  --darak-bg: #F3EEE2;
+  --darak-bg: #f3eee2;
   --darak-bg-dark: #979797;
   --text-dark: #373737;
   --darak-point1: #b46a55;
   --darak-point2: #6b4f3b;
   --darak-point3: #eac04d;
+}
+
+@keyframes lp-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-lp-spin {
+  animation: lp-spin 5s linear infinite;
 }
 
 @theme inline {
