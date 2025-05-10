@@ -20,7 +20,7 @@ export default function EmotionEdit({
   useEffect(() => {
     const fetchEmotionList = async () => {
       const res = await HomeAPI.getEmotionLabels(token);
-      const data = (res.data as any).data;
+      const data = res.data as any;
       if (data) {
         setEmotionList(data);
         console.log(data);
