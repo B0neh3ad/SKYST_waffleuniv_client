@@ -47,5 +47,10 @@
 body {
   background: var(--darak-bg);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "NanumSquareNeo";
+}
+
+@font-face {
+  font-family: "NanumSquareNeo";
+  src: url("/font/NanumSquareNeo-Variable.woff2") format("woff2");
 }
