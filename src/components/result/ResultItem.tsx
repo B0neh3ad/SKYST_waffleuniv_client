@@ -1,5 +1,6 @@
 "use client";
 
+import { emotionMapping } from "@/constants/constants";
 import { useUserColor } from "../../../provider/UserContextProvider";
 
 export default function ResultItem({
@@ -42,6 +43,7 @@ export default function ResultItem({
               님의 오늘 기분은
             </span>
             <span className="ml-2 px-2 py-1 rounded text-[25px] text-[#3B3029] font-bold bg-[#FFFFFF99] px-[20px] py-[12px]">
+              <img src={"/img/"+emotionMapping[state as keyof typeof emotionMapping]+".svg"} className="inline-block mr-4"></img>
               {state}
             </span>
             <span className="ml-2 text-[22px] text-[#6B4F3B]">
@@ -55,13 +57,13 @@ export default function ResultItem({
       </div>
       <div className="flex gap-6 mt-8 items-center justify-center">
         <button
-          className="rounded bg-[#F2D6C2] w-[134px] h-[60px] font-bold text-lg"
+          className="rounded-xl bg-[#F2D6C2] w-[134px] h-[60px] font-bold text-lg"
           onClick={onReject}
         >
           아니야
         </button>
         <button
-          className="rounded bg-[#B46A5599] w-[134px] h-[60px] font-bold text-lg"
+          className="rounded-xl bg-[#B46A5599] w-[134px] h-[60px] font-bold text-lg"
           onClick={onConfirm}
         >
           맞아
