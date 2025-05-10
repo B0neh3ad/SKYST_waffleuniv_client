@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { HomeAPI } from "../../../api/api";
+import { useAuth } from "../../../provider/UserContextProvider";
 export default function ProfileConfirmDialog({
   open,
   onClose,
@@ -13,17 +14,29 @@ export default function ProfileConfirmDialog({
   userColor: string;
 }) {
   const router = useRouter();
+  const { setToken } = useAuth();
   const handleConfirm = async () => {
     onConfirm();
 
     const colorHex = userColor.replace("#", "");
     try {
       const res = await HomeAPI.register(colorHex);
-      console.log("register result:", res.data);
+      // 예시: res.data.data.token 또는 res.data.token 등 실제 응답 구조에 맞게
+      console.log("결과", res.data.token);
+      if (res.data.token) {
+        setToken(res.data.token);
+        // local storage에 토큰 저장
+        localStorage.setItem("token", res.data.token);
+        console.log("토큰", res.data.token);
+
+        router.push("/log");
+      } else {
+        // 토큰이 없으면 에러 처리 또는 재시도
+        alert("토큰이 발급되지 않았습니다. 다시 시도해 주세요.");
+      }
     } catch (e) {
       console.error("register error:", e);
     }
-    router.push("/log");
   };
 
   if (!open) return null;

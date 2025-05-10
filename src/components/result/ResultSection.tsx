@@ -6,12 +6,15 @@ import EmotionEdit from "./EmotionEdit";
 import EmotionConfirm from "./EmotionConfirm";
 import { useRouter } from "next/navigation";
 import { useUserColor } from "../../../provider/UserContextProvider";
+import { useAuth } from "../../../provider/UserContextProvider";
 
 export default function ResultSection() {
   const router = useRouter();
   const { setRoomId } = useUserColor();
-  const [selectedState, setSelectedState] = useState<string>("기쁨");
+  const { labelId, labelName } = useAuth();
+  const [selectedState, setSelectedState] = useState<string>(labelName || "");
   const [step, setStep] = useState<"result" | "edit" | "confirm">("result");
+  const [isCorrect, setIsCorrect] = useState(true);
 
   const handleConfirm = () => {
     // TODO: 감정 Label 전송하고, 기다리는 동안, EmotionConfirm 표시
@@ -22,6 +25,11 @@ export default function ResultSection() {
     const roomId = "1234567890";
     setRoomId(roomId);
     setTimeout(() => router.push("/room/entrance"), 2000);
+  };
+
+  const handleReject = () => {
+    setIsCorrect(false);
+    setStep("edit");
   };
 
   return (
@@ -36,7 +44,7 @@ export default function ResultSection() {
             className="absolute w-full flex justify-center"
           >
             <ResultItem
-              onReject={() => setStep("edit")}
+              onReject={handleReject}
               onConfirm={handleConfirm}
               state={selectedState}
             />

@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useUserColor } from "../../../provider/UserContextProvider";
 import Image from "next/image";
 
-export default function ProfileConfirmDialog({
+export default function LogSubmitConfirmDialog({
   open,
   onConfirm,
 }: {
