@@ -1,18 +1,22 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 interface LogSubmitSectionProps {
   diary: String;
 }
 
 export default function LogSubmitSection() {
-  const handleNext = () => {}
+  const router = useRouter();
+  const handleNext = () => {
+    router.push("/result");
+  };
 
   // Analysis done
   return (
     <div className="flex items-center justify-center min-h-[400px]">
       <div className="bg-white rounded-xl shadow p-8 w-full max-w-md flex flex-col items-center">
         <div className="text-lg font-semibold mb-6 text-center">
-          분석이 완료되었어요!<br />
+          분석이 완료되었어요!
+          <br />
           감정 분석이 명확히 되었는지 확인해주세요
         </div>
         <button
