@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-
+import { HomeAPI } from "../../../api/api";
 export default function ProfileConfirmDialog({
   open,
   onClose,
@@ -13,10 +13,19 @@ export default function ProfileConfirmDialog({
   userColor: string;
 }) {
   const router = useRouter();
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     onConfirm();
+
+    const colorHex = userColor.replace("#", "");
+    try {
+      const res = await HomeAPI.register(colorHex);
+      console.log("register result:", res.data);
+    } catch (e) {
+      console.error("register error:", e);
+    }
     router.push("/log");
   };
+
   if (!open) return null;
   return (
     <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
@@ -29,7 +38,7 @@ export default function ProfileConfirmDialog({
         </div>
         <div
           className="w-[180px] h-[180px] rounded-full mb-[32px]"
-          style={{  
+          style={{
             backgroundColor: userColor,
           }}
         />
