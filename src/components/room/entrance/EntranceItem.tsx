@@ -47,21 +47,30 @@ export default function EntranceItem({ handleNext }: EntranceItemProps) {
                 {labelName}
               </span>
             </div>
-            <span className={`text-center text-[25px] font-bold text-${isLightColorEmotion(labelName) ? "#373737" : "white"}`}>
+            <span
+              className={`text-center text-[25px] font-bold text-${
+                isLightColorEmotion(labelName) ? "#373737" : "white"
+              }`}
+            >
               다락
             </span>
           </span>
           <div className="flex flex-col gap-[10px]">
             <span className="flex gap-[10px]">
-              <img src={`/img/${isLightColorEmotion(labelName) ? "person_dark" : "person"}.svg`} alt="person" width={19} height={20} />
-              <span className={`text-[${isLightColorEmotion(labelName) ? "##373737CC" : "#FFFFFFCC"}] text-[18px]`}>
+              <img
+                src={`/img/${
+                  isLightColorEmotion(labelName) ? "person_dark" : "person"
+                }.svg`}
+                alt="person"
+                width={19}
+                height={20}
+              />
+              <span
+                className={`text-[${
+                  isLightColorEmotion(labelName) ? "##373737CC" : "#FFFFFFCC"
+                }] text-[18px]`}
+              >
                 {userCount}명이 이 다락에 함께하고 있어요.
-              </span>
-            </span>
-            <span className="flex gap-[10px]">
-              <img src={`/img/${isLightColorEmotion(labelName) ? "cd_dark" : "cd"}.svg`} alt="cd" width={19} height={19} />
-              <span className={`text-[${isLightColorEmotion(labelName) ? "##373737CC" : "#FFFFFFCC"}] text-[18px]`}>
-                지금 재생 중인 음악 - Falling
               </span>
             </span>
           </div>
