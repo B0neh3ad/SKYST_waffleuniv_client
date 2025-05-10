@@ -22,6 +22,7 @@ export default function EntranceSection() {
     setSongCount,
     setCurrentSongVideoId,
     setCurrentSongStartedAt,
+    setRoomId,
   } = useAuth();
   useEffect(() => {
     console.log(userColor);
@@ -44,6 +45,7 @@ export default function EntranceSection() {
     console.log(res);
     const res_data = res.data as any;
     if (res_data) {
+      const roomId = res_data.roomId;
       const userCount = res_data.userCount;
       const songCount = res_data.songCount;
       const currentSongVideoId = res_data.currentSongVideoId;
@@ -52,6 +54,7 @@ export default function EntranceSection() {
       setSongCount(songCount);
       setCurrentSongVideoId(currentSongVideoId);
       setCurrentSongStartedAt(currentSongStartedAt);
+      setRoomId(roomId);
     }
 
     setStep("form");
