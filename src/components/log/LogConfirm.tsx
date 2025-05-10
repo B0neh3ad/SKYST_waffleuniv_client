@@ -1,33 +1,13 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import LogSubmitFallback from "./LogSubmitFallback";
 import { useUserColor } from "../../../provider/UserContextProvider";
 
 interface LogConfirmProps {
     diary: String;
     handleBack: () => void;
+    handleConfirm: () => void;
 };
 
-export default function LogConfirm({ diary, handleBack }: LogConfirmProps) {
-    const router = useRouter();
-    const { userColor, setUserColor } = useUserColor();
-    const [submitted, setSubmitted] = useState(false);
-    
-    const handleConfirm = () => {
-        // TODO: 일기를 전송하고 response가 올 때까지 LogSubmitFallback 표시
-        // TODO: response가 오면 LogSubmitSection으로 이동
-        console.log("submitted");
-        setSubmitted(true);
-        setTimeout(() => router.push("/log/submit"), 2000);
-    }
-
-    if (submitted) {
-      return (
-        <LogSubmitFallback />
-      );
-    }
+export default function LogConfirm({ diary, handleBack, handleConfirm }: LogConfirmProps) {
+    const { userColor } = useUserColor();
 
     return (
       <div className="p-6 max-w-3xl mx-auto flex flex-row gap-8">

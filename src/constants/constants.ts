@@ -1,0 +1,1 @@
+export const MAX_DIARY_LENGTH = 1000;
