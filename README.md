@@ -67,7 +67,7 @@
 
 2. **귀여운 캐릭터 ‘다락이’**  
    귀여운 다락이가 당신의 감정 일기에 공감해 줍니다!  
-   솔직하게 감정을 적으면, 다락이가 함께하는 다락방 여정으로 초대합니다.
+   솔직하게 감정을 적으면, 다락이가 당신을 다락방 여정으로 초대합니다.
 
 3. **아늑한 다락 내부**  
    따뜻하고 아기자기한 UI로 꾸며진 다락 내부를 자유롭게 탐험해 보세요.  
@@ -84,7 +84,8 @@
 - **Frontend**: Next.js(typescript), tailwindCSS, Vercel
 - **Backend**: Spring Boot, WebSocket, Spring Data JPA  
 - **AI**: OpenAI GPT API (감정 분석)  
-- **Database**: MySQL (ERD 기반 테이블 설계) 
+- **Database**: MySQL (ERD 기반 테이블 설계)
+- **Design**: 다락방과 음악의 조화를 최대한 고려한 컬러 차트, 캐릭터 사용, 자체제작 이모지, LP 작동 UX 개선/LP 봉투 이용
 
 ---
 
