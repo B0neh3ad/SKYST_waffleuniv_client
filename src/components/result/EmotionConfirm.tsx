@@ -16,7 +16,7 @@ export default function EmotionConfirm({
   // context가 제대로 반영되어있는지 확인 필요
   // context null 일때 안보이도록 해야함.
   const { userColor } = useUserColor();
-  
+
   return (
     <div className="relative w-full h-screen flex flex-col items-center overflow-hidden">
       {/* 메시지 */}

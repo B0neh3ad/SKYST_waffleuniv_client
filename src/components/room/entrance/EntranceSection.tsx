@@ -40,23 +40,6 @@ export default function EntranceSection() {
   }, [token]);
 
   const handleNext = async () => {
-    console.log(token);
-    const res = await HomeAPI.joinRoom(token);
-    console.log(res);
-    const res_data = res.data as any;
-    if (res_data) {
-      const roomId = res_data.roomId;
-      const userCount = res_data.userCount;
-      const songCount = res_data.songCount;
-      const currentSongVideoId = res_data.currentSongVideoId;
-      const currentSongStartedAt = res_data.currentSongStartedAt;
-      setUserCount(userCount);
-      setSongCount(songCount);
-      setCurrentSongVideoId(currentSongVideoId);
-      setCurrentSongStartedAt(currentSongStartedAt);
-      setRoomId(roomId);
-    }
-
     setStep("form");
   };
 
