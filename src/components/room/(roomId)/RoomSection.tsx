@@ -23,6 +23,8 @@ export default function RoomSection({ roomId }: { roomId: string }) {
     setCurrentSongStartedAt,
     submittedSong,
     setSubmittedSong,
+    labelId,
+    labelName,
   } = useAuth();
 
   // Add state for current song
@@ -35,57 +37,101 @@ export default function RoomSection({ roomId }: { roomId: string }) {
     fullStory: string;
   } | null>(null);
 
+  const [isStompReady, setIsStompReady] = useState(false);
+
+  // Debug logging
+  useEffect(() => {
+    console.log("🔍 Current State:", {
+      currentSong,
+      currentSongVideoId,
+      currentSongStartedAt,
+      userCount,
+      songCount,
+      submittedSong,
+      isStompReady,
+    });
+  }, [
+    currentSong,
+    currentSongVideoId,
+    currentSongStartedAt,
+    userCount,
+    songCount,
+    submittedSong,
+    isStompReady,
+  ]);
+
   const { sendSongRequest, sendReaction } = useStompClient({
     url: "https://d2xeo8dtqopj84.cloudfront.net/ws",
     token,
     roomId,
     onConnect: () => {
-      console.log("STOMP 연결 성공");
+      console.log("✅ STOMP 연결 성공");
       setIsStompReady(true);
+
+      // STOMP 연결 직후 노래 요청 보내기
+      if (submittedSong.title) {
+        console.log(
+          "🎵 Sending song request after STOMP connect:",
+          submittedSong
+        );
+        sendSongRequest({
+          title: submittedSong.title,
+          artist: submittedSong.artist,
+          sourceUrl: submittedSong.sourceUrl,
+          comment: submittedSong.comment,
+        });
+      }
     },
     onMessage: (msg) => {
-      console.log("📥 Incoming:", msg);
+      console.log("📥 Incoming STOMP Message:", {
+        action: msg.action,
+        content: msg.content,
+        fullMessage: msg,
+      });
 
       if (msg.action == "PLAY") {
+        console.log("🎵 Playing new song:", msg.content);
         setCurrentSong(msg.content);
         setCurrentSongVideoId(msg.content.videoId);
         setCurrentSongStartedAt(msg.content.startedAt);
       } else if (msg.action == "UPD_SONG_COUNT") {
+        console.log("📊 Updating song count:", msg.content.songCount);
         setSongCount(msg.content.songCount);
       } else if (msg.action == "UPD_USER_COUNT") {
+        console.log("👥 Updating user count:", msg.content.userCount);
         setUserCount(msg.content.userCount);
       } else {
-        console.log("Unknown message:", msg);
+        console.log("❓ Unknown message type:", msg);
       }
     },
   });
 
-  const [isStompReady, setIsStompReady] = useState(false);
-
   useEffect(() => {
     // 1. 새로운 방에 대한 정보 가져오기
     const fetchRoomInfo = async () => {
-      const roomInfo = await HomeAPI.getRoomInfo(token ?? "");
-      const res_data = roomInfo.data as any;
-      if (res_data) {
-        setUserCount(res_data.userCount);
-        setSongCount(res_data.songCount);
-        setCurrentSongVideoId(res_data.currentSongVideoId);
-        setCurrentSongStartedAt(res_data.currentSongStartedAt);
+      if (!token) {
+        console.log("⚠️ No token available, skipping room info fetch");
+        return;
+      }
+
+      console.log("🔄 Fetching room info...");
+      try {
+        const roomInfo = await HomeAPI.getRoomInfo(token);
+        const res_data = roomInfo.data as any;
+        console.log("📦 Room info response:", res_data);
+
+        if (res_data) {
+          setUserCount(res_data.userCount);
+          setSongCount(res_data.songCount);
+          setCurrentSongVideoId(res_data.currentSongVideoId);
+          setCurrentSongStartedAt(res_data.currentSongStartedAt);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching room info:", error);
       }
     };
     fetchRoomInfo();
-
-    // STOMP 연결이 준비되면 노래 요청 보내기
-    if (isStompReady && submittedSong.title) {
-      sendSongRequest({
-        title: submittedSong.title,
-        artist: submittedSong.artist,
-        sourceUrl: submittedSong.sourceUrl,
-        comment: submittedSong.comment,
-      });
-    }
-  }, [roomId, isStompReady]);
+  }, [roomId, token]);
 
   // STOMP 연결 상태 모니터링
   useEffect(() => {
@@ -109,6 +155,8 @@ export default function RoomSection({ roomId }: { roomId: string }) {
 
   const handleStartClick = () => {
     playerRef.current?.playVideo();
+    setStickToggled(!stickToggled);
+    console.log("눌렀음");
   };
 
   return (
@@ -123,7 +171,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
                 <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[87px] relative gap-2.5 p-2.5">
                   <img src="/img/sad.svg" alt="sad" />
                   <p className="flex-grow-0 flex-shrink-0 w-[66px] text-[25px] font-bold text-center text-[#3b3029]">
-                    슬픔
+                    {labelName}
                   </p>
                 </div>
               </div>
@@ -135,7 +183,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           <div className="flex justify-center items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-2.5">
             {/* User Icon SVG would go here */}
             <p className="flex-grow-0 flex-shrink-0 w-[266px] text-lg text-left text-[#373737]/80">
-              18명이 이 다락에 함께하고 있어요.
+              {userCount}명이 이 다락에 함께하고 있어요.
             </p>
           </div>
         </div>
@@ -177,22 +225,20 @@ export default function RoomSection({ roomId }: { roomId: string }) {
             }}
           />
           {/* LP 헤드 */}
-          <img
-            src="/img/LPhead.svg"
-            alt="LPhead"
-            className="absolute"
+          <button
+            onClick={handleStartClick}
+            className="absolute cursor-pointer border-none bg-transparent p-0"
             style={{
               left: "50%",
               top: "50%",
               transform: `translate(50%, -80%) rotate(${stickAngle}deg)`,
               transformOrigin: "20% 15%",
-              pointerEvents: "none",
               transition: "transform 1.2s cubic-bezier(.4,2,.6,1)",
               zIndex: 100,
-              cursor: "pointer",
             }}
-            onClick={handleStartClick}
-          />
+          >
+            <img src="/img/LPhead.svg" alt="LPhead" className="w-full h-full" />
+          </button>
           <YouTubePlayer
             videoId={currentSongVideoId}
             onPlayerReady={(player) => {
