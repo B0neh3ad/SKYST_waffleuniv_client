@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { HomeAPI } from "../../../api/api";
+import { HomeAPI } from "../../api/api";
 export default function ProfileConfirmDialog({
   open,
   onClose,
