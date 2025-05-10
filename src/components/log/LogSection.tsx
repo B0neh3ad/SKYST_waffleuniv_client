@@ -50,7 +50,7 @@ export default function LogSection() {
         <LogSubmitFallback />
         <LogSubmitConfirmDialog
           open={submitted}
-          onConfirm={() => router.push("/room/entrance")}
+          onConfirm={() => router.push("/result")}
         />
       </>
     );
