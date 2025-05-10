@@ -41,6 +41,9 @@ export default function EmotionEdit({
               }
             `}
             onClick={() => onSelect(emotion)}
+            style={{
+              cursor: "pointer",
+            }}
           >
             <img
               src={`/img/${
@@ -57,6 +60,9 @@ export default function EmotionEdit({
         <button
           className="rounded-xl bg-[#B46A5599] w-[134px] h-[60px] font-bold text-lg"
           onClick={onConfirm}
+          style={{
+            cursor: "pointer",
+          }}
         >
           선택 완료
         </button>

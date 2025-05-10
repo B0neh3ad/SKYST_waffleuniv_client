@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useUserColor } from "../../../../provider/UserContextProvider";
 
 interface EntranceFormProps {
@@ -6,75 +7,111 @@ interface EntranceFormProps {
 
 export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
   const { userColor } = useUserColor();
+  const [name, setName] = useState("");
+  const [artist, setArtist] = useState("");
+  const [url, setUrl] = useState("");
+  const [description, setDescription] = useState("");
 
   return (
-    <div className="relative flex flex-col items-center justify-start h-screen w-full bg-gray-50 overflow-hidden">
-      {/* Top: Title */}
-      <div className="mt-16 mb-8 flex items-center space-x-3">
-        <div className="flex items-center space-x-2">
-          <span
-            className="inline-block w-8 h-8 rounded-full border-2 border-white shadow-md"
-            style={{ backgroundColor: userColor }}
-          />
-          <span className="text-xl font-semibold">
-            <span className="text-purple-400">{userColor}</span>
-            의 신청곡을 작성해주세요!
-          </span>
-        </div>
+    <div className="relative flex flex-col items-center justify-center h-full w-full overflow-hidden">
+      <div className="self-stretch text-center text-[28px] font-bold text-[#3B3029] mt-[97.4px] mb-[40px]">
+        다락에서 재생될 신청곡을 작성해주세요!
       </div>
-      {/* Form Card */}
-      <form
-        className="relative bg-white rounded-3xl shadow-lg w-[520px] max-w-full p-10 flex flex-col items-center z-10"
-        onSubmit={e => {
-          e.preventDefault();
-          handleSubmit();
-        }}
-      >
-        {/* Applicant color circle and nickname */}
-        <div className="flex items-center mb-6 w-full">
-          <span
-            className="w-8 h-8 rounded-full mr-2 border-2 border-gray-500 flex items-center justify-center"
-            style={{ backgroundColor: userColor }}
-          />
-          <span className="text-lg font-semibold">{userColor}</span>
-        </div>
-        {/* Fields */}
-        <div className="w-full space-y-4 mb-6">
-          <input
-            type="text"
-            placeholder="곡명"
-            className="w-full border-b-2 border-gray-200 focus:border-purple-400 outline-none text-base py-1 px-2 bg-transparent"
-            required
-          />
-          <input
-            type="text"
-            placeholder="가수명"
-            className="w-full border-b-2 border-gray-200 focus:border-purple-400 outline-none text-base py-1 px-2 bg-transparent"
-            required
-          />
-          <input
-            type="url"
-            placeholder="유튜브 URL"
-            className="w-full border-b-2 border-gray-200 focus:border-purple-400 outline-none text-base py-1 px-2 bg-transparent"
-            required
-          />
-          <input
-            type="text"
-            placeholder="한줄소개"
-            className="w-full border-b-2 border-gray-200 focus:border-purple-400 outline-none text-base py-1 px-2 bg-transparent"
-            required
-          />
-        </div>
-        {/* Submit Button */}
-        <button
-          type="submit"
-          className="mt-2 px-8 py-2 bg-purple-400 hover:bg-purple-500 text-white font-semibold rounded-lg shadow transition"
+
+      <div className="relative left-[-200px]">
+        <form
+          id="entrance-form"
+          className="flex shrink-0 flex-col w-[599px] h-[599px] bg-[#37678F] rounded-[20px] p-[50px] gap-[20px]"
+          onSubmit={e => {
+            e.preventDefault();
+            if (name === "" || artist === "" || url === "" || description === "") {
+              alert("모든 필드를 입력해 주세요.");
+              return;
+            }
+            handleSubmit();
+          }}
         >
-          신청하기
-        </button>
-        {/* Decorative Arc on the right */}
-        <div className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-40 h-40 border-4 border-purple-200 rounded-full z-0 opacity-60 pointer-events-none" />
-      </form>
+          <div className="shrink-0 h-[60px] w-[214px] mb-[30px] flex items-center justify-center bg-[#FFFFFF99] rounded-[10px] px-[20px] gap-[10px]">
+            <div
+                className="w-[33px] h-[33px] rounded-full drop-shadow-[2px_2px_5px_rgba(0,0,0,0.10)]"
+                style={{ backgroundColor: userColor }}
+            />
+            <span className="text-center text-[25px] font-bold text-[#3B3029]">{ userColor }</span>
+          </div>
+          <div className="flex flex-col gap-[20px]">
+            <span className="flex gap-[10px]">
+              <span className="text-[#373737CC] text-[18px]">곡명</span>
+              <input
+                type="text"
+                placeholder="입력해주세요"
+                className="text-white text-[18px] bg-transparent border-none outline-none"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                required
+              />
+            </span>
+            <span className="flex gap-[10px]">
+              <span className="text-[#373737CC] text-[18px]">가수명</span>
+              <input
+                type="text"
+                placeholder="입력해주세요"
+                className="text-white text-[18px] bg-transparent border-none outline-none"
+                value={artist}
+                onChange={e => setArtist(e.target.value)}
+                required
+              />
+            </span>
+            <span className="flex flex-col gap-[10px]">
+              <span className="text-[#373737CC] text-[18px]">유튜브 URL</span>
+              <input
+                type="url"
+                placeholder="https://youtube.com/watch?v=..."
+                className="text-white w-[214px] text-[18px] bg-transparent border-none outline-none"
+                required
+                value={url}
+                onChange={e => setUrl(e.target.value)}
+                style={{
+                  overflow: "hidden",
+                  whiteSpace: "normal",
+                  wordWrap: "break-word",
+                  overflowWrap: "break-word",
+                }}
+              />
+            </span>
+            <span className="flex flex-col gap-[10px]">
+              <span className="text-[#373737CC] text-[18px]">곡 한줄 소개</span>
+              <input
+                type="text"
+                placeholder="입력해주세요"
+                className="text-white text-[18px] bg-transparent border-none outline-none"
+                required
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+              />
+            </span>
+          </div>
+          <button
+            className="w-[134px] h-[60px] shrink-0 rounded-[10px] bg-[#B46A5599] text-black text-[20px] font-bold text-center mt-[90px]"
+            onClick={handleSubmit}
+            style={{
+              cursor: "pointer",
+            }}
+          >
+            신청하기
+          </button>
+        </form>
+        <img
+          className="animate-lp-spin"
+          src="/img/LP.svg"
+          width={596}
+          height={596}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "336px",
+          }}
+        />
+      </div>
     </div>
   );
 }
