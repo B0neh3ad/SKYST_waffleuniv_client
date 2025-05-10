@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import EntranceItem from "./EntranceItem";
 import EntranceForm from "./EntranceForm";
-import EntranceFallback from "./EntranceFallback";
 import { useRouter } from "next/navigation";
 import { useUserColor } from "../../../../provider/UserContextProvider";
+import EntranceConfirmDialog from "./EntranceConfirmDialog";
 
 export default function EntranceSection() {
   const router = useRouter();
-  const [step, setStep] = useState<"init" | "form" | "enter">("init");
+  const [step, setStep] = useState<"init" | "form">("init");
+  const [submitted, setSubmitted] = useState(false);
   const { userColor } = useUserColor();
 
   useEffect(() => {
@@ -24,10 +25,7 @@ export default function EntranceSection() {
   }
 
   const handleSubmit = () => {
-    setStep("enter");
-    setTimeout(() => {
-      router.push("/room/1");
-    }, 2000);
+    setSubmitted(true);
   }
 
   if (step == "init"){
@@ -36,11 +34,13 @@ export default function EntranceSection() {
     );
   } else if (step == "form"){
     return (
-      <EntranceForm handleSubmit={handleSubmit} />
-    );
-  } else if (step == "enter"){
-    return (
-      <EntranceFallback />
+      <>
+        <EntranceForm handleSubmit={handleSubmit} />
+        <EntranceConfirmDialog
+          open={submitted}
+          onConfirm={() => router.push("/room/1")}
+        />
+      </>
     );
   }
 }
