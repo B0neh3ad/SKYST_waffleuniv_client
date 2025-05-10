@@ -21,7 +21,12 @@ export default function LogSubmitFallback() {
         }}
       >          
         <DiaryHeader userColor={"#DARACK"} />
-        <div className="w-full flex flex-col">
+        <div
+          className="w-full flex flex-col"
+          style={{
+            fontFamily: 'hakgyoansimNadeuriLarge',
+          }}
+        >
           <div className="text-[#6B4F3B] h=[35px] text-[20px] border-b border-b-1 border-[#6B4F3B]">안녕하세요! 저는 다락이에요.</div>
           <div className="text-[#6B4F3B] h=[35px] text-[20px] border-b border-b-1 border-[#6B4F3B]">사용자님의 일기를 읽게 되어서 정말 기뻐요!</div>
           <div className="text-[#6B4F3B] h=[35px] text-[20px] border-b border-b-1 border-[#6B4F3B]">얼른 읽고, 어떤 기분을 느끼고 계신지 정확히 분석할게요.</div>

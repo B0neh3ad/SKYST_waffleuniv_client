@@ -54,3 +54,13 @@ body {
   font-family: "NanumSquareNeo";
   src: url("/font/NanumSquareNeo-Variable.woff2") format("woff2");
 }
+
+@font-face {
+  font-family: "HakgyoansimNadeuriBold";
+  src: url("/font/Hakgyoansim Nadeuri TTF B.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "HakgyoansimNadeuriLarge";
+  src: url("/font/Hakgyoansim Nadeuri TTF L.ttf") format("truetype");
+}
