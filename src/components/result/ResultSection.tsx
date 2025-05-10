@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ResultItem from "./ResultItem";
 import EmotionEdit from "./EmotionEdit";
@@ -7,24 +7,35 @@ import EmotionConfirm from "./EmotionConfirm";
 import { useRouter } from "next/navigation";
 import { useUserColor } from "../../../provider/UserContextProvider";
 import { useAuth } from "../../../provider/UserContextProvider";
+import { HomeAPI } from "../../../api/api";
 
 export default function ResultSection() {
   const router = useRouter();
   const { setRoomId } = useUserColor();
-  const { labelId, labelName } = useAuth();
+  const { labelId, labelName, setToken, token } = useAuth();
   const [selectedState, setSelectedState] = useState<string>(labelName || "");
   const [step, setStep] = useState<"result" | "edit" | "confirm">("result");
   const [isCorrect, setIsCorrect] = useState(true);
+  
+  useEffect(() => {
+    //localstorage에 저장된 token 꺼내서 provider에 설정
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, [token]);
+
 
   const handleConfirm = () => {
     // TODO: 감정 Label 전송하고, 기다리는 동안, EmotionConfirm 표시
+    HomeAPI.feedback(isCorrect, labelId, token).then((res) => {
+      console.log(res);
+      router.push("/room/entrance")
+    });
+    
     // TODO: response가 오면 '/room/entrance'으로 이동
     console.log("submitted");
     setStep("confirm");
-    // global context roomId 설정.
-    const roomId = "1234567890";
-    setRoomId(roomId);
-    setTimeout(() => router.push("/room/entrance"), 2000);
   };
 
   const handleReject = () => {
