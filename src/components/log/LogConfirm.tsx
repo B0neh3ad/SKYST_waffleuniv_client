@@ -42,7 +42,7 @@ export default function LogConfirm({ diary, handleBack, handleConfirm }: LogConf
           </div>
         </div>
         {/* Right: Confirmation and options */}
-        <div className="flex-1 flex flex-col w-[50%] justify-between bg-darak-bg-dark justify-center items-center">
+        <div className="flex-1 flex flex-col w-[50%] justify-between bg-[#DCD8CF] justify-center items-center">
           <div className="flex flex-col items-center justify-center gap-[10px] self-stretch mb-[40px]">
             <div className="flex h-[39px] flex-col justify-center self-stretch text-center text-black text-[28px] font-bold">일기를 확정할까요?</div>
             <div className="text-[#6B4F3B] text-center text-[18px] font-bold">확정하면 AI가 나의 감정을 분석해요</div>
