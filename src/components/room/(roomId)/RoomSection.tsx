@@ -72,12 +72,14 @@ export default function RoomSection({ roomId }: { roomId: string }) {
     fetchRoomInfo();
     // 2. 방에 들어오면 요청 보내기 song Request
     // userContextProvider에 저장해둔걸 토대로 신청하
-    sendSongRequest({
-      title: submittedSong.title ?? "",
-      artist: submittedSong.artist ?? "",
-      sourceUrl: submittedSong.sourceUrl ?? "",
-      comment: submittedSong.comment ?? "",
-    });
+    setTimeout(() => {
+      sendSongRequest({
+        title: submittedSong.title ?? "",
+        artist: submittedSong.artist ?? "",
+        sourceUrl: submittedSong.sourceUrl ?? "",
+        comment: submittedSong.comment ?? "",
+      });
+    }, 1000);
   }, [roomId]);
 
   const { userColor } = useUserColor();

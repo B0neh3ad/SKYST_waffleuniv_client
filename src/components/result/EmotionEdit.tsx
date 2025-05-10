@@ -23,6 +23,7 @@ export default function EmotionEdit({
       const data = (res.data as any).data;
       if (data) {
         setEmotionList(data);
+        console.log(data);
       }
     };
     fetchEmotionList();
