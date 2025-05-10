@@ -13,7 +13,7 @@ export default function DiaryHeader({ userColor, mb }: { userColor: string, mb?:
         </div>
         <div className="flex flex-col text-center">
         <span className="flex justify-center items-center gap-[10px] self-stretch text-[#3B3029] text-center text-[20px] font-bold">오늘의 감정 일기</span>
-        <span className="text-[#3B30294D] text-center text-[20px] font-bold">2025.05.10</span>
+        <span className="text-[#3B30294D] text-center text-[20px] font-bold">2025.05.11</span>
         </div>
     </div>
   );
