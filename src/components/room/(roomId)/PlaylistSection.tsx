@@ -109,6 +109,9 @@ const PlaylistSection = forwardRef<any, PlaylistSectionProps>(
                   sendReaction({ songId: currentSong.id, emoji });
                 }
               }}
+              style={{
+                cursor: "pointer",
+              }}
             >
               {icon}
             </button>
