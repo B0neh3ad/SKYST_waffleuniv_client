@@ -130,7 +130,7 @@ export default function CurrentMusic({
           style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.10)" }}
         >
           <span className="text-black">탭해서 </span>
-          <span className="text-[#FF0000]">#{userColor || "FF0000"}</span>
+          <span className="text-[#FF0000]">{userColor || "FF0000"}</span>
           <span className="text-black"> 님의 일기 보기</span>
         </div>
       </div>
