@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useUserColor } from "../../../../provider/UserContextProvider";
 import LP_Icon from "../../../../public/img/LP_Icon";
 import { emotionColorMapping, emotionMapping } from "@/constants/constants";
+import { isLightHexColor } from "@/util/utils";
 
 interface EntranceFormProps {
   handleSubmit: () => void;
@@ -64,7 +65,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
           </div>
           <div className="flex flex-col gap-[20px]">
             <span className="flex gap-[10px]">
-              <span className="text-[#373737CC] text-[18px]">곡명</span>
+              <span className={`text-[${isLightHexColor(userColor) ? "#373737CC" : "#FFFFFFCC"}] text-[18px]`}>곡명</span>
               <input
                 type="text"
                 placeholder="입력해주세요"
@@ -75,7 +76,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
               />
             </span>
             <span className="flex gap-[10px]">
-              <span className="text-[#373737CC] text-[18px]">가수명</span>
+              <span className={`text-[${isLightHexColor(userColor) ? "#373737CC" : "#FFFFFFCC"}] text-[18px]`}>가수명</span>
               <input
                 type="text"
                 placeholder="입력해주세요"
@@ -86,7 +87,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
               />
             </span>
             <span className="flex flex-col gap-[10px]">
-              <span className="text-[#373737CC] text-[18px]">유튜브 URL</span>
+              <span className={`text-[${isLightHexColor(userColor) ? "#373737CC" : "#FFFFFFCC"}] text-[18px]`}>유튜브 URL</span>
               <input
                 type="url"
                 placeholder="https://youtube.com/watch?v=..."
@@ -103,7 +104,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
               />
             </span>
             <span className="flex flex-col gap-[10px]">
-              <span className="text-[#373737CC] text-[18px]">곡 한줄 소개</span>
+              <span className={`text-[${isLightHexColor(userColor) ? "#373737CC" : "#FFFFFFCC"}] text-[18px]`}>곡 한줄 소개</span>
               <input
                 type="text"
                 placeholder="입력해주세요"
