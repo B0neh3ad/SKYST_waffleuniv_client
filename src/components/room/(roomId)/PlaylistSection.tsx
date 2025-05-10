@@ -15,17 +15,18 @@ interface CurrentSong {
 }
 
 interface PlaylistSectionProps {
-  sendReaction?: (reaction: { songId: number; emoji: string }) => void;
-  currentSong?: CurrentSong | null;
+  sendReaction?: (reaction: { name: string }) => void;
 }
 
 const PlaylistSection = forwardRef<any, PlaylistSectionProps>(
-  ({ sendReaction, currentSong }, ref) => {
+  ({ sendReaction }, ref) => {
     const [emojis, setEmojis] = useState<
       { id: string; emoji: string; x: number; y: number }[]
     >([]);
     const { songCount } = useAuth();
     const addEmoji = (emoji: string, x: number, y: number) => {
+      console.log("addEmoji called with", emoji, x, y);
+
       const id = uuidv4();
       setEmojis((prev) => [...prev, { id, emoji, x, y }]);
     };
@@ -38,6 +39,8 @@ const PlaylistSection = forwardRef<any, PlaylistSectionProps>(
     useImperativeHandle(ref, () => ({
       addEmojiFromReaction: (emoji: string) => {
         // 화면 중앙에서 애니메이션 시작 (예시)
+        console.log("addEmojiFromReaction called with", emoji);
+
         const x = window.innerWidth / 2;
         const y = window.innerHeight - 100;
         addEmoji(emoji, x, y);
@@ -105,8 +108,8 @@ const PlaylistSection = forwardRef<any, PlaylistSectionProps>(
                 const y = rect.top + rect.height / 2;
                 const emoji = index === 0 ? "❤️" : "👍";
                 addEmoji(emoji, x, y);
-                if (sendReaction && currentSong) {
-                  sendReaction({ songId: currentSong.id, emoji });
+                if (sendReaction) {
+                  sendReaction({ name: emoji });
                 }
               }}
             >

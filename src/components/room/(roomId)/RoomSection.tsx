@@ -109,7 +109,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           playlistSectionRef.current.addEmojiFromReaction
         ) {
           console.log("🎵 Reaction received:", msg.content);
-          playlistSectionRef.current.addEmojiFromReaction(msg.content.emoji);
+          playlistSectionRef.current.addEmojiFromReaction(msg.content);
         }
       } else {
         console.log("❓ Unknown message type:", msg);
@@ -275,7 +275,6 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           <PlaylistSection
             ref={playlistSectionRef}
             sendReaction={sendReaction}
-            currentSong={currentSong}
           />
         </div>
       </div>

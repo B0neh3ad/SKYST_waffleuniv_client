@@ -74,7 +74,7 @@ export const useStompClient = ({
   };
 
   const sendReaction = useCallback(
-    (reaction: { songId: number; emoji: string }) => {
+    (reaction: { name: string }) => {
       if (isConnected()) {
         clientRef.current!.publish({
           destination: `/app/room/${roomId}/reaction`,
