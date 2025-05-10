@@ -1,9 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PlaylistSection from "./PlaylistSection";
 import CurrentMusic from "./CurrentMusic";
 import { useUserColor } from "../../../../provider/UserContextProvider";
 import Image from "next/image";
+import type { YouTubePlayer as PlayerType } from 'react-youtube';
+import YouTubePlayer from "./YoutubePlayer";
 
 export default function RoomSection({ roomId }: { roomId: string }) {
   useEffect(() => {
@@ -13,12 +15,18 @@ export default function RoomSection({ roomId }: { roomId: string }) {
   }, [roomId]);
 
   const { userColor } = useUserColor();
+  const playerRef = useRef<PlayerType | null>(null);
+  const [ready, setReady] = useState(false);
 
   // 바늘 각도 토글 state
   const [stickToggled, setStickToggled] = useState(false);
 
   // 각도 계산 (기본 18도, 토글 시 -72도)
   const stickAngle = stickToggled ? -72 : 6;
+
+  const handleStartClick = () => {
+    playerRef.current?.playVideo();
+  };
 
   return (
     <div className="relative w-full h-screen flex flex-col items-center bg-darak-bg">
@@ -76,7 +84,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
             alt="LP"
             width={599}
             height={599}
-            className="w-[599px] h-[599px] object-cover"
+            className="w-[599px] h-[599px] object-cover animate-lp-spin"
             style={{
               width: 599,
               height: 599,
@@ -97,6 +105,16 @@ export default function RoomSection({ roomId }: { roomId: string }) {
               transformOrigin: "20% 15%",
               pointerEvents: "none",
               transition: "transform 1.2s cubic-bezier(.4,2,.6,1)",
+              zIndex: 100,
+              cursor: "pointer",
+            }}
+            onClick={handleStartClick}
+          />
+          <YouTubePlayer
+            videoId="H58vbez_m4E"
+            onPlayerReady={(player) => {
+              playerRef.current = player;
+              setReady(true);
             }}
           />
         </div>
