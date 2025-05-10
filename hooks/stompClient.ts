@@ -82,6 +82,7 @@ export const useStompClient = ({
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log("Reaction sent:", name);
     } else {
       console.warn("🛑 STOMP client not connected yet. Reaction not sent.");
     }

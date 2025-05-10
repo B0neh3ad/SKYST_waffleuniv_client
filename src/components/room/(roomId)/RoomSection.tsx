@@ -51,9 +51,9 @@ export default function RoomSection({ roomId }: { roomId: string }) {
         setCurrentSongVideoId(msg.content.videoId);
         setCurrentSongStartedAt(msg.content.startedAt);
       } else if (msg.action == "UPD_SONG_COUNT") {
-        setSongCount(msg.content.songCount);
+        setSongCount(msg.content);
       } else if (msg.action == "UPD_USER_COUNT") {
-        setUserCount(msg.content.userCount);
+        setUserCount(msg.content);
       } else {
         console.log("Unknown message:", msg);
       }
