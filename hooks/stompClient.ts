@@ -1,7 +1,7 @@
 // hooks/useStompClient.ts
 import { Client, IMessage } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 interface UseStompProps {
   url: string;
@@ -73,20 +73,23 @@ export const useStompClient = ({
     }
   };
 
-  const sendReaction = (name: string) => {
-    if (isConnected()) {
-      clientRef.current!.publish({
-        destination: `/app/room/${roomId}/reaction`,
-        body: JSON.stringify({ name }),
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log("Reaction sent:", name);
-    } else {
-      console.warn("🛑 STOMP client not connected yet. Reaction not sent.");
-    }
-  };
+  const sendReaction = useCallback(
+    (reaction: { songId: number; emoji: string }) => {
+      if (isConnected()) {
+        clientRef.current!.publish({
+          destination: `/app/room/${roomId}/reaction`,
+          body: JSON.stringify(reaction),
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log("Reaction sent:", reaction);
+      } else {
+        console.warn("🛑 STOMP client not connected yet. Reaction not sent.");
+      }
+    },
+    [roomId]
+  );
 
   return { sendSongRequest, sendReaction };
 };

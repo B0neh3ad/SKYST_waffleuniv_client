@@ -62,6 +62,8 @@ export default function RoomSection({ roomId }: { roomId: string }) {
     isStompReady,
   ]);
 
+  const playlistSectionRef = useRef<any>(null);
+
   const { sendSongRequest, sendReaction } = useStompClient({
     url: "https://d2xeo8dtqopj84.cloudfront.net/ws",
     token,
@@ -100,6 +102,15 @@ export default function RoomSection({ roomId }: { roomId: string }) {
         setSongCount(msg.content);
       } else if (msg.action == "UPD_USER_COUNT") {
         setUserCount(msg.content);
+      } else if (msg.action === "REACTION") {
+        // REACTION 메시지 도착 시 PlaylistSection에 이모지 전달
+        if (
+          playlistSectionRef.current &&
+          playlistSectionRef.current.addEmojiFromReaction
+        ) {
+          console.log("🎵 Reaction received:", msg.content);
+          playlistSectionRef.current.addEmojiFromReaction(msg.content.emoji);
+        }
       } else {
         console.log("❓ Unknown message type:", msg);
       }
@@ -126,6 +137,10 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           setCurrentSong(res_data.currentSong);
           setCurrentSongVideoId(res_data.currentSongVideoId);
           setCurrentSongStartedAt(res_data.currentSongStartedAt);
+          // 현재 재생 중인 곡 정보도 설정
+          if (res_data.currentSong) {
+            setCurrentSong(res_data.currentSong);
+          }
         }
       } catch (error) {
         console.error("❌ Error fetching room info:", error);
@@ -165,7 +180,9 @@ export default function RoomSection({ roomId }: { roomId: string }) {
 
   useEffect(() => {
     if (labelName in emotionColorMapping) {
-      setEmotionColor(emotionColorMapping[labelName as keyof typeof emotionColorMapping]);
+      setEmotionColor(
+        emotionColorMapping[labelName as keyof typeof emotionColorMapping]
+      );
     }
     if (labelName in emotionMapping) {
       setEmotionName(emotionMapping[labelName as keyof typeof emotionMapping]);
@@ -223,7 +240,10 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           style={{ width: 599, height: 599, zIndex: 10, marginLeft: 0 }}
           className="relative"
         >
-          <LP_Icon centerColor={emotionColor} className="w-[599px] h-[599px] object-cover animate-lp-spin" />
+          <LP_Icon
+            centerColor={emotionColor}
+            className="w-[599px] h-[599px] object-cover animate-lp-spin"
+          />
           {/* LP 헤드 */}
           <button
             onClick={handleStartClick}
@@ -252,7 +272,11 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           className="absolute"
           style={{ top: 0, right: 0, height: "100%", zIndex: 20 }}
         >
-          <PlaylistSection />
+          <PlaylistSection
+            ref={playlistSectionRef}
+            sendReaction={sendReaction}
+            currentSong={currentSong}
+          />
         </div>
       </div>
     </div>
