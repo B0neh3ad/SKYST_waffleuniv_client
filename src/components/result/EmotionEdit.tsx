@@ -53,12 +53,14 @@ export default function EmotionEdit({
           </button>
         ))}
       </div>
-      <button
-        className="mt-4 px-6 py-2 bg-violet-500 text-white rounded-full font-bold"
-        onClick={onConfirm}
-      >
-        확정
-      </button>
+      <div className="flex gap-6 mt-8 items-center justify-center">
+        <button
+          className="rounded-xl bg-[#B46A5599] w-[134px] h-[60px] font-bold text-lg"
+          onClick={onConfirm}
+        >
+          선택 완료
+        </button>
+      </div>
     </div>
   );
 }
