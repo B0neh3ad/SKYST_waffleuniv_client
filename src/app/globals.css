@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #faf5f1;
   --foreground: #171717;
+  --darak-bg: #faf5f1;
+  --darak-point1: #b46a55;
+  --darak-point2: #6b4f3b;
+  --darak-point3: #eac04d;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-darak-bg: var(--darak-bg);
+  --color-darak-point1: var(--darak-point1);
+  --color-darak-point2: var(--darak-point2);
+  --color-darak-point3: var(--darak-point3);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }

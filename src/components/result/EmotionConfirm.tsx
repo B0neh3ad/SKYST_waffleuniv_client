@@ -12,7 +12,9 @@ export default function EmotionConfirm({
   state: string;
   onBack: () => void;
 }) {
-  const { userColor, setUserColor } = useUserColor();
+  // context가 제대로 반영되어있는지 확인 필요
+  // context null 일때 안보이도록 해야함.
+  const { userColor } = useUserColor();
 
   const circles = Array.from({ length: 7 }).map((_, idx) => {
     const size = Math.floor(Math.random() * 80) + 40; // 40~120px
@@ -45,7 +47,7 @@ export default function EmotionConfirm({
     <div className="relative w-full h-screen bg-white flex flex-col items-center justify-center overflow-hidden">
       {/* 메시지 */}
       <div className="text-center z-10">
-        <div className="text-sm text-gray-400 mb-1">#{state}</div>
+        <div className="text-sm text-gray-400 mb-1">#{userColor}</div>
         <div className="text-2xl font-semibold text-gray-800">
           님과 비슷한 감정 그룹을 찾고 있어요...
         </div>
