@@ -21,7 +21,7 @@ export default function LogItem({
   return (
     <div className="p-6 mx-[156px] mt-[110.4px] bg-darak-bg">
       {/* User info and prompt */}
-        <div className="flex flex-col items-start gap-[20px] mb-[30px]">
+        <div className="flex flex-col items-center justify-center self-stretch gap-[10px] mb-[70.56px]">
           <span className="flex text-[#3B3029] items-center text-center text-[28px] font-bold">
             <div className="flex w-[214px] h-[60px] px-[30px] py-[12px] items-center gap-[10px] bg-[#FFFFFF99] rounded-[10px] mr-[22px]">
               <div
@@ -42,9 +42,14 @@ export default function LogItem({
         className="flex h-[550px] px-[100px] py-[42px] flex-col items-center gap-10px self-stretch rounded-[15px] bg-[#FAF5F1]"
         style={{boxShadow: '5px 5px 10px 0px rgba(0, 0, 0, 0.10)'}}
       >
-        <DiaryHeader />
+        <DiaryHeader userColor={userColor} />
         <textarea
-          className="w-full h-full resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 mb-2"
+          className="w-full h-full bg-[#FAF5F1] text-[#6B4F3B] resize-none leading-[53px] text-[20px] text-[#6B4F3B] mt-[57px]"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(to bottom, transparent, transparent 52px, #B7A89A 52px, #B7A89A 53px)",
+            backgroundSize: "100% 53px"
+          }}
           placeholder="오늘의 감정을 자유롭게 적어보세요..."
           value={diary}
           onChange={handleDiaryChange}

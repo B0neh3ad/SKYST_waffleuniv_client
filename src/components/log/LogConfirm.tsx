@@ -21,8 +21,18 @@ export default function LogConfirm({ diary, handleBack, handleConfirm }: LogConf
               boxShadow: '5px 5px 100px 0px rgba(0, 0, 0, 0.10)',
             }}
           >
-            <DiaryHeader />
-            <div className="whitespace-pre-line text-gray-800 min-h-[80px]">
+            <DiaryHeader userColor={userColor} />
+            <div className="w-full h-full bg-[#FAF5F1] text-[#6B4F3B] resize-none leading-[53px] text-[20px] text-[#6B4F3B] mt-[57px]"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(to bottom, transparent, transparent 52px, #B7A89A 52px, #B7A89A 53px)",
+                backgroundSize: "100% 53px",
+                overflow: "hidden",
+                whiteSpace: "normal",
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+              }}
+            >
               {diary}
             </div>
             <div className="mb-[50px] flex self-end justify-end items-center text-sm text-gray-400">
