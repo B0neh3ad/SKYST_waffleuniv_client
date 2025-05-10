@@ -31,6 +31,7 @@ export default function LogConfirm({ diary, handleBack, handleConfirm }: LogConf
                 whiteSpace: "normal",
                 wordWrap: "break-word",
                 overflowWrap: "break-word",
+                fontFamily: "hakgyoansimNadeuriLarge",
               }}
             >
               {diary}

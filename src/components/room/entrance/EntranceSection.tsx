@@ -15,7 +15,7 @@ export default function EntranceSection() {
   useEffect(() => {
     console.log(userColor);
     if (userColor == "#") {
-      router.push("/home");
+      router.push("/");
     }
   }, [userColor]);
 

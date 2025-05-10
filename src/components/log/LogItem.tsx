@@ -46,6 +46,7 @@ export default function LogItem({
         <textarea
           className="w-full h-full bg-[#FAF5F1] text-[#6B4F3B] resize-none leading-[53px] text-[20px] text-[#6B4F3B] mt-[57px]"
           style={{
+            fontFamily: 'hakgyoansimNadeuriLarge',
             backgroundImage:
               "repeating-linear-gradient(to bottom, transparent, transparent 52px, #B7A89A 52px, #B7A89A 53px)",
             backgroundSize: "100% 53px"

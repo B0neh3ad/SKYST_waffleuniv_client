@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ProfileConfirmDialog from "./ProfileConfirmDialog";
-import { useUserColor } from "../../../provider/UserContextProvider";
+import { useUserColor } from "../../provider/UserContextProvider";
 import Image from "next/image";
 
 function isValidHexColor(str: string) {
