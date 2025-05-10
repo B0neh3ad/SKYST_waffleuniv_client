@@ -182,7 +182,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
                 {/* Emotion Circle SVG would go here */}
                 <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[87px] relative gap-2.5 p-2.5">
                   <img src={`/img/${emotionName}.svg`} alt="감정 이미지" />
-                  <p className="flex-grow-0 flex-shrink-0 w-[66px] text-[25px] font-bold text-center text-[#3b3029]">
+                  <p className="flex-grow-0 flex-shrink-0 text-[25px] font-bold text-center text-[#3b3029]">
                     {labelName}
                   </p>
                 </div>
