@@ -47,9 +47,9 @@ function DraggableArcs({ handleNext }: { handleNext: () => void }) {
       className="relative w-72 h-36 flex flex-col items-center transform rotate-180 cursor-pointer select-none"
       onClick={handleNext}
     >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-36 border-4 border-gray-300 rounded-b-full"></div>
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-60 h-28 border-2 border-gray-200 rounded-b-full"></div>
-      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-20 border border-gray-100 rounded-b-full"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-36 border-4 border-white rounded-b-full"></div>
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-60 h-28 border-2 border-white rounded-b-full"></div>
+      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-48 h-20 border border-white rounded-b-full"></div>
     </div>
   );
 }

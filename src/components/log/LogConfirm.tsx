@@ -1,4 +1,6 @@
+import { MAX_DIARY_LENGTH } from "@/constants/constants";
 import { useUserColor } from "../../../provider/UserContextProvider";
+import DiaryHeader from "./DiaryHeader";
 
 interface LogConfirmProps {
     diary: String;
@@ -10,41 +12,49 @@ export default function LogConfirm({ diary, handleBack, handleConfirm }: LogConf
     const { userColor } = useUserColor();
 
     return (
-      <div className="p-6 max-w-3xl mx-auto flex flex-row gap-8">
+      <div className="flex w-full h-screen bg-darak-bg">
         {/* Left: Diary summary */}
-        <div className="flex-1 bg-white rounded-xl shadow p-6">
-          <div className="mb-4">
-            <span className="text-lg font-semibold">오늘의 감정 일기</span>
-          </div>
-          <div className="flex items-center mb-4">
-            <div
-              className="w-8 h-8 rounded-full mr-2 border-2 border-gray-500 flex items-center justify-center"
-              style={{ backgroundColor: userColor }}
-            />
-            <span className="font-semibold mr-1">{userColor}</span>
-          </div>
-          <div className="whitespace-pre-line text-gray-800 min-h-[80px]">
-            {diary}
+        <div className="flex-1 flex flex-col w-[50%] bg-darak-bg justify-center items-center">
+          <div
+            className="flex flex-col w-[550px] h-[676px] rounded-[15px] bg-[#FAF5F1] px-[75px] py-[60px]"
+            style={{
+              boxShadow: '5px 5px 100px 0px rgba(0, 0, 0, 0.10)',
+            }}
+          >
+            <DiaryHeader />
+            <div className="whitespace-pre-line text-gray-800 min-h-[80px]">
+              {diary}
+            </div>
+            <div className="mb-[50px] flex self-end justify-end items-center text-sm text-gray-400">
+              <span className="text-[#6B4F3B] text-center text-[20px] font-bold">{diary.length}</span>
+              <span className="text-[#00000080] text-center text-[20px] font-bold">/{MAX_DIARY_LENGTH}</span>
+            </div>
           </div>
         </div>
         {/* Right: Confirmation and options */}
-        <div className="flex-1 flex flex-col justify-between bg-white rounded-xl shadow p-6">
-          <div>
-            <div className="text-lg font-semibold mb-2">일기를 확정할까요?</div>
-            <div className="mb-4 text-gray-700 text-sm">확정하면 AI가 나의 감정을 분석해요</div>
+        <div className="flex-1 flex flex-col w-[50%] justify-between bg-darak-bg-dark justify-center items-center">
+          <div className="flex flex-col items-center justify-center gap-[10px] self-stretch mb-[40px]">
+            <div className="flex h-[39px] flex-col justify-center self-stretch text-center text-black text-[28px] font-bold">일기를 확정할까요?</div>
+            <div className="text-[#6B4F3B] text-center text-[18px] font-bold">확정하면 AI가 나의 감정을 분석해요</div>
           </div>
-          <div className="flex justify-between mt-8">
+          <div className="flex justify-between gap-[20px]">
             <button
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+              className="w-[134px] h-[60px] rounded-[10px] bg-[#F2D6C2] text-black text-center text-[20px] font-bold"
               onClick={handleBack}
+              style={{
+                cursor: 'pointer',
+              }}
             >
-              이전
+              돌아가기
             </button>
             <button
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-              onClick={handleConfirm} // Implement confirm logic as needed
+              className="w-[134px] h-[60px] rounded-[10px] bg-[#B46A5599] text-black text-center text-[20px] font-bold"
+              onClick={handleConfirm}
+              style={{
+                cursor: 'pointer',
+              }}
             >
-              확정
+              확정하기
             </button>
           </div>
         </div>

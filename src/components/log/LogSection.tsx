@@ -7,13 +7,15 @@ import LogSubmitFallback from "./LogSubmitFallback";
 import { useRouter } from "next/navigation";
 import LogItem from "./LogItem";
 import { MAX_DIARY_LENGTH } from "@/constants/constants";
+import LogSubmitConfirmDialog from "./LogSubmitConfirmDialog";
 
 export default function LogSection() {
   // State for emotion, diary text, and character count
   const router = useRouter();
   const { userColor } = useUserColor();
   const [diary, setDiary] = useState("");
-  const [step, setStep] = useState<"input" | "confirm" | "submit">("input");
+  const [step, setStep] = useState<"input" | "confirm" | "submit" | "complete">("input");
+  const [submitted, setSubmitted] = useState(false);
 
   // Handler for clearing the diary
   const handleClear = () => {
@@ -35,8 +37,8 @@ export default function LogSection() {
     // TODO: 일기를 전송하고 response가 올 때까지 LogSubmitFallback 표시
     // TODO: response가 오면 LogSubmitSection으로 이동
     setStep("submit");
-    setTimeout(() => router.push("/log/submit"), 2000);
-}
+    setTimeout(() => setSubmitted(true), 2000);
+  }
 
   if (step === "confirm") {
     return (
@@ -44,7 +46,13 @@ export default function LogSection() {
     );
   } else if (step === "submit") {
     return (
-      <LogSubmitFallback />
+      <>
+        <LogSubmitFallback />
+        <LogSubmitConfirmDialog
+          open={submitted}
+          onConfirm={() => router.push("/room/entrance")}
+        />
+      </>
     );
   } else {
     return (
