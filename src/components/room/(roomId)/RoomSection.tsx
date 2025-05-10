@@ -9,6 +9,8 @@ import YouTubePlayer from "./YoutubePlayer";
 import { HomeAPI } from "../../../../api/api";
 import { useAuth } from "../../../../provider/UserContextProvider";
 import { useStompClient } from "../../../../hooks/stompClient";
+import LP_Icon from "../../../../public/img/LP_Icon";
+import { emotionColorMapping, emotionMapping } from "@/constants/constants";
 
 export default function RoomSection({ roomId }: { roomId: string }) {
   const {
@@ -147,6 +149,9 @@ export default function RoomSection({ roomId }: { roomId: string }) {
   const playerRef = useRef<PlayerType | null>(null);
   const [ready, setReady] = useState(false);
 
+  const [emotionColor, setEmotionColor] = useState<string>("#000000");
+  const [emotionName, setEmotionName] = useState<string>("sad");
+
   // 바늘 각도 토글 state
   const [stickToggled, setStickToggled] = useState(false);
 
@@ -159,6 +164,15 @@ export default function RoomSection({ roomId }: { roomId: string }) {
     console.log("눌렀음");
   };
 
+  useEffect(() => {
+    if (labelName in emotionColorMapping) {
+      setEmotionColor(emotionColorMapping[labelName as keyof typeof emotionColorMapping]);
+    }
+    if (labelName in emotionMapping) {
+      setEmotionName(emotionMapping[labelName as keyof typeof emotionMapping]);
+    }
+  }, [labelName]);
+
   return (
     <div className="relative w-full h-screen flex flex-col items-center bg-darak-bg">
       {/* 상단: 제목, 인원수, 안내문구 */}
@@ -169,7 +183,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
               <div className="flex justify-start items-center flex-grow-0 flex-shrink-0 w-[95px] relative space-x-[-5px]">
                 {/* Emotion Circle SVG would go here */}
                 <div className="flex justify-center items-center flex-grow-0 flex-shrink-0 w-[87px] relative gap-2.5 p-2.5">
-                  <img src="/img/sad.svg" alt="sad" />
+                  <img src={`/img/${emotionName}.svg`} alt="감정 이미지" />
                   <p className="flex-grow-0 flex-shrink-0 w-[66px] text-[25px] font-bold text-center text-[#3b3029]">
                     {labelName}
                   </p>
@@ -210,20 +224,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
           style={{ width: 599, height: 599, zIndex: 10, marginLeft: 0 }}
           className="relative"
         >
-          <img
-            src="/img/LP.svg"
-            alt="LP"
-            width={599}
-            height={599}
-            className="w-[599px] h-[599px] object-cover animate-lp-spin"
-            style={{
-              width: 599,
-              height: 599,
-              display: "block",
-              objectFit: "cover",
-              left: "50%",
-            }}
-          />
+          <LP_Icon centerColor={emotionColor} className="w-[599px] h-[599px] object-cover animate-lp-spin" />
           {/* LP 헤드 */}
           <button
             onClick={handleStartClick}

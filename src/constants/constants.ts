@@ -23,3 +23,15 @@ export const emotionMapping = {
     기대: "hope",
     혐오: "disgust",
 }
+
+export const emotionColorMapping = {
+    "기쁨": "#FFD700",
+    "슬픔": "#87CEEB",
+    "분노": "#FF6B6B",
+    "무기력": "#808080",
+    "평온": "#98FB98",
+    "두려움": "#FFB6C1",
+    "놀람": "#FFD700",
+    "기대": "#87CEEB",
+    "혐오": "#FF6B6B",
+}
