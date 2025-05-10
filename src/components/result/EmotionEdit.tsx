@@ -1,15 +1,4 @@
-const EMOTION_LIST = [
-  "기쁨",
-  "슬픔",
-  "분노",
-  "불안",
-  "평온",
-  "놀람",
-  "지루함",
-  "감사",
-  "후회",
-  "자신감",
-];
+import { emotionLabels, emotionMapping } from "@/constants/constants";
 
 export default function EmotionEdit({
   selectedState,
@@ -21,22 +10,46 @@ export default function EmotionEdit({
   onConfirm: () => void;
 }) {
   return (
-    <div className="max-w-4xl h-[80vh] bg-white rounded-xl shadow flex flex-col items-center justify-center">
-      <div className="text-xl mb-4">수정할 감정을 선택해주세요!</div>
-      <div className="flex flex-wrap gap-2 justify-center mb-4">
-        {EMOTION_LIST.map((emotion) => (
+    <div className="max-w-4xl h-[80vh] flex flex-col items-center justify-center">
+      <div className="flex flex-col justify-center max-w-4xl mx-auto rounded-xl rounded-tl-none shadow bg-[#F2D6C2] w-[530px] h-[143px] px-[40px]">
+        <div className="text-[22px] mb-2 text-[#6B4F3B]">
+          죄송해요. 분석에 실수가 있었던 것 같아요.
+        </div>
+        <div className="text-[22px] text-[#6B4F3B]">
+          직접 기분을 선택해 주시겠어요?
+        </div>
+        <div className="relative">
+          <img
+            src="/img/bubbletip.svg"
+            className="absolute -left-[49px] -top-[103.5px] z-10 w-[15px] h-[12px]"
+          />
+          <img
+            src="/img/darak.svg"
+            className="absolute w-[86px] h-[57px] -left-[160px] -top-[150px] z-10"
+          />
+        </div>
+      </div>
+            <div className="grid grid-cols-3 gap-6 mx-auto my-6 w-fit">
+        {emotionLabels.map((emotion) => (
           <button
             key={emotion}
-            className={`px-4 py-2 rounded-full border transition-colors
+            className={`px-3 py-2 rounded-xl transition-colors flex items-center justify-center gap-4
               ${
                 selectedState === emotion
-                  ? "bg-violet-500 text-white border-violet-500"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-violet-100"
+                  ? "bg-[#FFFFFF99] text-[25px] border border-[#B46A55]"
+                  : "bg-[#FFFFFF99] text-[25px]"
               }
             `}
             onClick={() => onSelect(emotion)}
           >
-            {emotion}
+            <img
+              src={`/img/${
+                emotionMapping[emotion as keyof typeof emotionMapping]
+              }.svg`}
+              className="w-7 h-7"
+              alt={emotion}
+            />
+            <span>{emotion}</span>
           </button>
         ))}
       </div>
