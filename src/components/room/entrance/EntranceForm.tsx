@@ -50,7 +50,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
             handleSubmit();
           }}
           style={{
-            backgroundColor: emotionColor,
+            backgroundColor: userColor,
           }}
         >
           <div className="shrink-0 h-[60px] w-[214px] mb-[30px] flex items-center justify-center bg-[#FFFFFF99] rounded-[10px] px-[20px] gap-[10px]">
@@ -134,7 +134,7 @@ export default function EntranceForm({ handleSubmit }: EntranceFormProps) {
           </button>
         </form>
         <LP_Icon
-          centerColor={emotionColor}
+          centerColor={userColor}
           className="absolute top-0 left-[336px] w-[596px] h-[596px] animate-lp-spin"
         />
       </div>
