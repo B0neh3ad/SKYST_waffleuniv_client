@@ -25,7 +25,7 @@ export default function ResultSection() {
   };
 
   return (
-    <div className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+    <div className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-[#F3EEE2]">
       <AnimatePresence mode="wait">
         {step === "result" && (
           <motion.div
