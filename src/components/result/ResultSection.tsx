@@ -5,8 +5,11 @@ import ResultItem from "./ResultItem";
 import EmotionEdit from "./EmotionEdit";
 import EmotionConfirm from "./EmotionConfirm";
 import { useRouter } from "next/navigation";
+import { useUserColor } from "../../../provider/UserContextProvider";
+
 export default function ResultSection() {
   const router = useRouter();
+  const { setRoomId } = useUserColor();
   const [selectedState, setSelectedState] = useState<string>("기쁨");
   const [step, setStep] = useState<"result" | "edit" | "confirm">("result");
 
@@ -15,6 +18,9 @@ export default function ResultSection() {
     // TODO: response가 오면 '/room/entrance'으로 이동
     console.log("submitted");
     setStep("confirm");
+    // global context roomId 설정.
+    const roomId = "1234567890";
+    setRoomId(roomId);
     setTimeout(() => router.push("/room/entrance"), 2000);
   };
 

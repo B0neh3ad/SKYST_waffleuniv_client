@@ -5,6 +5,8 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 interface UserColorContextType {
   userColor: string;
   setUserColor: (color: string) => void;
+  roomId: string;
+  setRoomId: (id: string) => void;
 }
 
 const UserColorContext = createContext<UserColorContextType | undefined>(
@@ -24,8 +26,12 @@ export default function UserContextProvider({
   children: ReactNode;
 }) {
   const [userColor, setUserColor] = useState("#");
+  const [roomId, setRoomId] = useState("");
+
   return (
-    <UserColorContext.Provider value={{ userColor, setUserColor }}>
+    <UserColorContext.Provider
+      value={{ userColor, setUserColor, roomId, setRoomId }}
+    >
       {children}
     </UserColorContext.Provider>
   );
