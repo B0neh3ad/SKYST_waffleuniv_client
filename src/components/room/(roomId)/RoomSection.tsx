@@ -123,6 +123,7 @@ export default function RoomSection({ roomId }: { roomId: string }) {
         if (res_data) {
           setUserCount(res_data.userCount);
           setSongCount(res_data.songCount);
+          setCurrentSong(res_data.currentSong);
           setCurrentSongVideoId(res_data.currentSongVideoId);
           setCurrentSongStartedAt(res_data.currentSongStartedAt);
         }
