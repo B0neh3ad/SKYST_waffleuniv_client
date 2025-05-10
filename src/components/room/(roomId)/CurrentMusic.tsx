@@ -83,7 +83,7 @@ export default function CurrentMusic({
             </svg>
             <div className="flex justify-center items-center gap-2.5 p-2.5">
               <p className="text-[25px] font-bold text-center text-[#3b3029]">
-                #{userColor || "FF0000"}
+                {userColor || "#FF0000"}
               </p>
             </div>
           </div>

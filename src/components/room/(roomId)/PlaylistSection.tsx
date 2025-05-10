@@ -47,7 +47,7 @@ export default function PlaylistSection() {
         </p>
       </div>
       {/* 버튼들 */}
-      <div className="flex flex-col gap-2 mb-4">
+      {/* <div className="flex flex-col gap-2 mb-4">
         <div className="flex justify-end">
           <div className="flex flex-col justify-end items-center h-[43px] px-1 gap-2.5 rounded-[10px] bg-[#b46a55]/30">
             <div className="flex gap-2.5 p-2.5">
@@ -65,7 +65,7 @@ export default function PlaylistSection() {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* 이모지 날아오르는 애니메이션 */}
       {emojis.map((e) => (
